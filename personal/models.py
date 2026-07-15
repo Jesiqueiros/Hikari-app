@@ -21,7 +21,7 @@ class EmpleadoManager(UserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class Personal(AbstractUser, Personal):
+class Personal(Personal, AbstractUser):
 
     username = None
     first_name = None
