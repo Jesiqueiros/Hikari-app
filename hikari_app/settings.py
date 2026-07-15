@@ -143,5 +143,4 @@ CACHES = {
     }
 }
 
-
-CSRF_FAILURE_VIEW = 'django_hikari.views.csrf_failure_view'
+AUTH_USER_MODEL = "personal.Personal"
