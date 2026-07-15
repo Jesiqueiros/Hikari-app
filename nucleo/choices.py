@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+from datetime import time
 
 class MetodoPago(models.TextChoices):
     EFECTIVO = "Efectivo", "Efectivo"
@@ -36,20 +36,6 @@ class EstadoPago(models.TextChoices):
     PENDIENTE = "PENDIENTE", "Pendiente"
     PARCIALMENTE_CUBIERTO = "PARCIALMENTE CUBIERTO", "Parcialmente cubierto"
 
-
-class Hora
-HORA_CITAS = [
-    (timezone.time(9, 50),  "09:50 A.M."),
-    (timezone.time(10, 40), "10:40 A.M."),
-    (timezone.time(11, 30), "11:30 A.M."),
-    (timezone.time(12, 15), "12:15 P.M."),
-    (timezone.time(15, 30), "03:30 P.M."),
-    (timezone.time(16, 20), "04:20 P.M."),
-    (timezone.time(17, 10), "05:10 P.M."),
-    (timezone.time(18, 0),  "06:00 P.M."),
-    (timezone.time(18, 45), "06:45 P.M."),
-    ]
-
 class estado_cita(models.TextChoices):
     CONSULTADO = "Consultado", "Consultado"
     CONFIRMO = "Confirmo", "Confirmó"
@@ -60,3 +46,22 @@ ESTATUS_CONSULTA_CHOICES = [
     ("Ausente", "Ausente",
      "Confirmado", "Confirmado",
      "Agendado", "Agendado")]
+
+class Horarios(models.TextChoices):
+    HORA_0950 = "09:50", "09:50 A.M."
+    HORA_1040 = "10:40", "10:40 A.M."
+    HORA_1130 = "11:30", "11:30 A.M."
+    HORA_1215 = "12:15", "12:15 P.M."
+    HORA_1530 = "15:30", "03:30 P.M."
+    HORA_1620 = "16:20", "04:20 P.M."
+    HORA_1710 = "17:10", "05:10 P.M."
+    HORA_1800 = "18:00", "06:00 P.M."
+    HORA_1845 = "18:45", "06:45 P.M."
+
+    @classmethod
+    def as_time_choices(cls):
+        """Devuelve las opciones como objetos datetime.time."""
+        return [
+            (time.fromisoformat(valor), etiqueta)
+            for valor, etiqueta in cls.choices
+        ]
