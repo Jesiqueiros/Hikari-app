@@ -1,0 +1,54 @@
+<nav class="navbar is-primary">
+
+    <a role="button"
+       class="navbar-burger"
+       aria-label="menu"
+       aria-expanded="false"
+       data-target="navbar-hikari">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </a>
+
+    <div id="navbar-hikari" class="navbar-menu">
+
+        <div class="navbar-start">
+
+            <a class="navbar-item" href="{% url 'inicio' %}">
+                Inicio
+            </a>
+
+            <a class="navbar-item">
+                Agenda
+            </a>
+
+            <a class="navbar-item">
+                Pacientes
+            </a>
+
+            <a class="navbar-item" href={% url "administracion:administracion" %}>
+                Administración
+            </a>
+
+        </div>
+
+        <div class="navbar-end">
+
+            <div class="navbar-item">
+                {{ request.user.nombre }}
+            </div>
+
+            <div class="navbar-item">
+                <a class="button is-danger">
+                    Cerrar sesión
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>

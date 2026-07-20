@@ -45,9 +45,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "citas",
-    "adminstracion",
+    "administracion",
     "pacientes",
-    "personal"
+    "personal",
+    "accounts"
 ]
 
 MIDDLEWARE = [
@@ -134,9 +135,9 @@ STATIC_ROOT = BASE_DIR/'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = "/"
+LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "inicio"
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 CACHES = {
@@ -146,3 +147,7 @@ CACHES = {
 }
 
 AUTH_USER_MODEL = "personal.Personal"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]

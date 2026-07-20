@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Hikari{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+
+    {% include "partials/barra_navegacion.html" %}
+
+    <main class="section">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const $navbarBurgers = Array.prototype.slice.call(
+                document.querySelectorAll('.navbar-burger'), 0
+            );
+
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+
+        });
+    </script>
+
+    {% block js %}{% endblock %}
+
+</body>
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Jesys Solutions</strong>|<strong>Hikari: centro de terapias</strong>
+    </p>
+  </div>
+</footer>
+</html>

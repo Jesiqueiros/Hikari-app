@@ -26,6 +26,7 @@ class Personal(Personal, AbstractUser):
     username = None
     first_name = None
     last_name = None
+    date_joined = None
 
     email = models.EmailField(unique=True, db_index=True)
 

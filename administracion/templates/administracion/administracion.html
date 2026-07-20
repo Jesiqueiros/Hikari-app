@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Administración{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="mb-6">
+            <h1 class="title is-2">
+                Administración
+            </h1>
+            <p>
+                Gestiona los pagos, gastos y procesos administrativos del centro de terapias.
+            </p>
+        </div>
+        <div class="columns is-multiline">
+            <!-- Pago de terapias -->
+            <div class="column is-6-tablet is-4-desktop">
+                <div class="card">
+                    <div class="card-content">
+                        <p class="title is-4">
+                            💳 Pago de terapias
+                        </p>
+                        <p class="content">
+                            Registra pagos en efectivo o transferencia realizados por los pacientes.
+                        </p>
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="#"
+                           class="card-footer-item has-text-weight-semibold">
+                            Ir al módulo
+                        </a>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- Gastos -->
+            <div class="column is-6-tablet is-4-desktop">
+                <div class="card">
+                    <div class="card-content">
+                        <p class="title is-4">
+                            💰 Gastos administrativos
+                        </p>
+                        <p class="content">
+                            Lleva el control de gastos como luz, agua, internet, renta y honorarios.
+                        </p>
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="#"
+                           class="card-footer-item has-text-weight-semibold">
+                            Ir al módulo
+                        </a>
+                    </footer>
+
+                </div>
+
+            </div>
+
+            <!-- Asignación -->
+            <div class="column is-6-tablet is-4-desktop">
+
+                <div class="card">
+                    <div class="card-content">
+
+                        <p class="title is-4">
+                            📋 Asignación de pagos
+                        </p>
+
+                        <p class="content">
+                            Relaciona cada pago con las terapias o evaluaciones correspondientes.
+                        </p>
+
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="#"
+                           class="card-footer-item has-text-weight-semibold">
+                            Ir al módulo
+                        </a>
+                    </footer>
+
+                </div>
+
+            </div>
+
+            <!-- Cobros -->
+            <div class="column is-6-tablet is-4-desktop">
+
+                <div class="card">
+                    <div class="card-content">
+
+                        <p class="title is-4">
+                            📩 Mensajes de cobro
+                        </p>
+
+                        <p class="content">
+                            Envía recordatorios de pago mediante WhatsApp o correo electrónico.
+                        </p>
+
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="#"
+                           class="card-footer-item has-text-weight-semibold">
+                            Ir al módulo
+                        </a>
+                    </footer>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
