@@ -146,7 +146,7 @@ CACHES = {
     }
 }
 
-AUTH_USER_MODEL = "personal.Personal"
+AUTH_USER_MODEL = "personal.Empleado"
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",

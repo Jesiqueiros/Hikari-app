@@ -1,4 +1,4 @@
-<nav class="navbar is-primary">
+<nav class="navbar is-warning">
 
     <a role="button"
        class="navbar-burger"
@@ -21,7 +21,7 @@
                 Inicio
             </a>
 
-            <a class="navbar-item">
+            <a class="navbar-item" href={% url "citas:agenda" %}>
                 Agenda
             </a>
 
@@ -42,7 +42,7 @@
             </div>
 
             <div class="navbar-item">
-                <a class="button is-danger">
+                <a class="button bulma-primary-light">
                     Cerrar sesión
                 </a>
             </div>

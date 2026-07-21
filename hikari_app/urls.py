@@ -27,5 +27,6 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("accounts/", include('accounts.urls', namespace="accounts")),
     path("inicio/", views.inicio, name="inicio"),
-    path("administracion/", include("administracion.urls", namespace="administracion"))
+    path("administracion/", include("administracion.urls", namespace="administracion")),
+    path("citas/", include("citas.urls", namespace="citas")),
 ]

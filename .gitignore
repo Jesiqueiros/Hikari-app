@@ -1,1 +1,16 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Variables de entorno
 .env
+
+# Static generados
+staticfiles/
+
+# Archivos de IDE
+.vscode/
+
+# Archivos de migraciones
+00_migraciones/

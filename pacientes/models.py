@@ -3,7 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, RegexVa
 from nucleo.models import Personal
 
 # create your model here.
-class Pacientes(Personal):
+class Paciente(Personal):
     # ---Datos del paciente---
     id = models.AutoField(primary_key=True)
     diagnostico = models.CharField(max_length=100, blank=True, null=True, help_text="Indique si el paciente tiene algún diagnostico")
