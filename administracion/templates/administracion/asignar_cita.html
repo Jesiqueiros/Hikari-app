@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="title">
+    Asignar citas al pago
+</h1>
+
+<div class="box">
+
+    <div class="columns is-multiline">
+
+        <div class="column is-half">
+            <p class="heading">Paciente</p>
+            <p class="title is-5">{{ pago.paciente }}</p>
+        </div>
+
+        <div class="column is-half">
+            <p class="heading">Fecha de pago</p>
+            <p>{{ pago.fecha }}</p>
+        </div>
+
+        <div class="column is-half">
+            <p class="heading">Método de pago</p>
+            <p>{{ pago.metodo_pago }}</p>
+        </div>
+
+        <div class="column is-half">
+            <p class="heading">Monto</p>
+            <p class="has-text-success has-text-weight-bold">
+                ${{ pago.monto }}
+            </p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="heading">
+        Sesiones asignadas
+    </p>
+
+    <progress
+        class="progress is-success"
+        value="{{ pago.sesiones_asignadas }}"
+        max="{{ pago.sesiones_cubiertas }}">
+    </progress>
+
+    <p class="has-text-centered">
+        {{ pago.sesiones_asignadas }}
+        /
+        {{ pago.sesiones_cubiertas }}
+    </p>
+
+    <hr>
+
+    <p class="heading">
+        Nota
+    </p>
+
+    <p>
+        {{ pago.nota_pago|default:"Sin nota" }}
+    </p>
+
+</div>
+<div class="box">
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <div class="table-container">
+
+        <table class="table is-fullwidth is-hoverable is-striped">
+
+            <thead>
+
+                <tr>
+
+                    <th></th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Paciente</th>
+                    <th>Terapeuta</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for cita in citas %}
+
+                <tr>
+
+                    <td>
+                        <input
+                            type="checkbox"
+                            name="citas"
+                            value="{{ cita.pk }}">
+                    </td>
+
+                    <td>{{ cita.fecha | date:"d F" }}</td>
+
+                    <td>{{ cita.hora }}</td>
+
+                    <td>{{ cita.paciente.nombre }}</td>
+
+                    <td>{{ cita.terapeuta.nombre }}</td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5" class="has-text-centered">
+
+                        No existen citas pendientes.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="buttons is-right mt-4">
+
+        <a
+            href="{% url 'administracion:pago_paquetes' %}"
+            class="button">
+
+            Cancelar
+
+        </a>
+
+        <button
+            class="button is-success"
+            type="submit">
+
+            Asignar citas
+
+        </button>
+
+    </div>
+
+</form>
+
+</div>
+{% endblock %}

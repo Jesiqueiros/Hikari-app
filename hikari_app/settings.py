@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "hikari.up.railway.app",
+    "192.168.0.189"
 ]
 
 # Allowed CSRF 

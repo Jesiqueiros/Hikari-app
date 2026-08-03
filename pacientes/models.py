@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator, RegexVa
 from nucleo.models import Personal
 from uuid import uuid4
 
+from django.db.models import Q
+
 from personal.models import Empleado
 
 from django.utils import timezone
@@ -30,6 +32,13 @@ class Paciente(Personal):
     activo = models.BooleanField(default=True)
     factura = models.BooleanField(default=False, help_text="Indique si requiere facturar las citas del paciente")
     familia = models.ForeignKey(Familia, on_delete=models.PROTECT, related_name="pacientes", blank=True, null=True)
+    
+    def filtro_familia(self):
+
+        if self.familia_id:
+            return Q(paciente__familia_id=self.familia_id)
+
+        return Q(paciente=self)
 
     class Meta:
         db_table = 'pacientes'

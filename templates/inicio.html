@@ -10,31 +10,31 @@
         ¡Bienvenido, {{ request.user.nombre }}! 👋
     </h1>
 
-    <div class="box">
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">🧒 Pacientes activos</p>
-                    <p class="title">{{ pacientes_activos }}</p>
-                </div>
-            </div>
+        
+    <div class="columns">
 
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">🎂 Cumpleaños</p>
-                    <p class="title">{{ cumpleaneros|length }}</p>
-                </div>
+        <div class="column is-4-desktop is-12-mobile">
+            <div class="box has-text-centered">
+                <p class="heading">🧒 Pacientes activos</p>
+                <p class="title">{{ pacientes_activos }}</p>
             </div>
+        </div>
 
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading"> 📅 Citas agendadas</p>
-                    <p class="title"> 0 </p>
-                </div>
+        <div class="column is-4-desktop is-12-mobile">
+            <div class="box has-text-centered">
+                <p class="heading">🎂 Cumpleaños</p>
+                <p class="title">{{ cumpleaneros|length }}</p>
             </div>
-        </nav>
+        </div>
+
+        <div class="column is-4-desktop is-12-mobile">
+            <div class="box has-text-centered">
+                <p class="heading">📅 Citas agendadas</p>
+                <p class="title">0</p>
+            </div>
+        </div>
+
     </div>
-
     <!-- Cumpleañeros -->
 
     <div class="box">

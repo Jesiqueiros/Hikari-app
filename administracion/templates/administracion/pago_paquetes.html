@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="title is-2">Referencias de pago </h2>
+<div class="box">
+    <div class="table-container">
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Paciente</th>
+                    <th>Paquete</th>
+                    <th>Pago en</th>
+                    <th>Cubre</th>
+                    <th>Asignadas</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for referencia in referencias %}
+                <tr>
+                    <td>{{ referencia.fecha | date:"d F" }}</t>
+                    <td>{{ referencia.paciente.nombre_completo}}</td>
+                    <td>{{ referencia.paquete }}</td>
+                    <td>{{ referencia.metodo_pago }}</td>
+                    <td class="text-center">{{ referencia.sesiones_cubiertas }}</td>
+                    <td class="text-center">{{ referencia.sesiones_asignadas}}</td>
+                    <td>
+                        <a href="{% url "administracion:asignar_cita" referencia.pago %}" class="text-decoration-none">
+                            Asignar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
