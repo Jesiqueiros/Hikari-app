@@ -36,6 +36,8 @@ ALLOWED_HOSTS = [
     "hikari.up.railway.app",
 ]
 
+# Allowed CSRF 
+CSRF_TRUSTED_ORIGINS = ["https://hikari.up.railway.app"]
 
 # Application definition
 
