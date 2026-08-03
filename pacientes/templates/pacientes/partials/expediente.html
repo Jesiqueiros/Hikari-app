@@ -1,0 +1,223 @@
+{% comment %} ==========================================
+Información general
+========================================== {% endcomment %}
+
+{% if general %}
+
+<article class="message is-info">
+
+    <div class="message-header">
+        Información general
+    </div>
+
+    <div class="message-body">
+
+        <div class="content">
+            <p>
+                <strong>Paciente:</strong><br>
+                {{ paciente.nombre_completo }}
+            </p>
+
+            <p>
+                <strong>Fecha de nacimiento:</strong><br>
+                {{ paciente.fecha_nacimiento }}
+            </p>
+
+            <p>
+                <strong>Edad actual:</strong><br>
+                <span class="tag is-info is-medium">
+                    {{ paciente.edad_actual }}
+                </span>
+            </p>
+
+            <p>
+                <strong>Diagnóstico:</strong><br>
+                {{ paciente.diagnostico|default:"Sin diagnóstico registrado" }}
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>EMERGENCIA:</strong> 
+                {% if paciente.padre_telefono %}
+                <a href="tel:{{ paciente.padre_telefono }}" class="button is-danger is-fullwidth">
+                    📞 Llamar a {{paciente.padre}}
+                </a>
+                {% else  %}
+                <a href="tel:{{ paciente.madre_telefono }}" class="button is-danger is-fullwidth">
+                    📞 Llamar a {{paciente.madre}}
+                </a>
+                {% endif %}
+
+        </div>
+
+    </div>
+
+</article>
+
+{% endif %}
+
+
+{% comment %} ==========================================
+Notas
+========================================== {% endcomment %}
+
+{% if notas %}
+
+<h2 class="title is-5">
+    Notas de terapia
+</h2>
+
+{% for cita in notas_paciente %}
+
+<div class="box">
+
+    <strong>{{ cita.fecha }}</strong>
+
+    <br>
+
+    {{ cita.terapeuta.nombre }}
+
+    <hr>
+
+    {{ cita.nota }}
+
+</div>
+
+{% empty %}
+
+<article class="message">
+
+    <div class="message-body">
+
+        No existen notas registradas.
+
+    </div>
+
+</article>
+
+{% endfor %}
+
+{% endif %}
+
+
+{% comment %} ==========================================
+Citas
+========================================== {% endcomment %}
+
+{% if citas %}
+
+<h2 class="title is-5">
+    Historial de citas
+</h2>
+
+<table class="table is-fullwidth">
+
+    <thead>
+
+        <tr>
+
+            <th>Fecha</th>
+
+            <th>Hora</th>
+
+            <th>Terapeuta</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for cita in citas_paciente %}
+
+        <tr>
+
+            <td>{{ cita.fecha }}</td>
+
+            <td>{{ cita.hora }}</td>
+
+            <td>{{ cita.terapeuta.nombre }}</td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="3">
+
+                No existen citas.
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endif %}
+
+
+{% comment %} ==========================================
+Pagos
+========================================== {% endcomment %}
+
+{% if pagos %}
+
+<h2 class="title is-5">
+    Pagos
+</h2>
+
+<table class="table is-fullwidth">
+
+    <thead>
+
+        <tr>
+
+            <th>Fecha</th>
+
+            <th>Monto</th>
+
+            <th>Método</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for pago in pagos_paciente %}
+
+        <tr>
+
+            <td>{{ pago.fecha }}</td>
+
+            <td>${{ pago.monto }}</td>
+
+            <td>{{ pago.metodo_pago }}</td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="3">
+
+                No existen pagos.
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endif %}

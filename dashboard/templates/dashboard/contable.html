@@ -1,0 +1,215 @@
+<section class="section">
+
+    <!-- ===================== -->
+    <!-- Resumen financiero -->
+    <!-- ===================== -->
+    <div class="box">
+
+        <h2 class="title is-4">
+            📊 Resumen financiero
+        </h2>
+
+        <div class="columns">
+
+            <!-- Ingresos -->
+            <div class="column">
+                <h3 class="subtitle has-text-success has-text-weight-semibold">
+                    💰 Ingresos
+                </h3>
+
+                <div class="content">
+
+                    <p class="heading mb-1">
+                        Total
+                    </p>
+
+                    <p class="title is-3 has-text-success mb-5">
+                        ${{ ingresos.total|floatformat:2 }}
+                    </p>
+
+                    <nav class="level is-mobile">
+
+                        <div class="level-item has-text-centered">
+                            <div>
+                                <p class="heading">
+                                    Efectivo
+                                </p>
+
+                                <p class="title is-5">
+                                    ${{ ingresos.efectivo|floatformat:2 }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="level-item has-text-centered">
+                            <div>
+                                <p class="heading">
+                                    Transferencia
+                                </p>
+
+                                <p class="title is-5">
+                                    ${{ ingresos.transferencia|floatformat:2 }}
+                                </p>
+                            </div>
+                        </div>
+
+                    </nav>
+
+                </div>
+            </div>
+
+            <!-- Separador -->
+            <div class="column is-narrow">
+                <div style="height:100%; border-left:1px solid #dbdbdb;"></div>
+            </div>
+
+            <!-- Gastos -->
+            <div class="column">
+                <h3 class="subtitle has-text-danger has-text-weight-semibold">
+                    💸 Gastos
+                </h3>
+
+                <div class="content">
+
+                    <p class="heading mb-1">
+                        Total
+                    </p>
+
+                    <p class="title is-3 has-text-danger mb-5">
+                        ${{ gastos.total|floatformat:2 }}
+                    </p>
+
+                    <nav class="level is-mobile">
+
+                        <div class="level-item has-text-centered">
+                            <div>
+                                <p class="heading">
+                                    Efectivo
+                                </p>
+
+                                <p class="title is-5">
+                                    ${{ gastos.efectivo|floatformat:2 }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="level-item has-text-centered">
+                            <div>
+                                <p class="heading">
+                                    Transferencia
+                                </p>
+
+                                <p class="title is-5">
+                                    ${{ gastos.transferencia|floatformat:2 }}
+                                </p>
+                            </div>
+                        </div>
+
+                    </nav>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================== -->
+    <!-- Gráfico -->
+    <!-- ===================== -->
+    <div class="box">
+
+        <div class="level">
+            <div class="level-left">
+                <h2 class="title is-4">
+                    📈 Flujo de efectivo
+                </h2>
+            </div>
+        </div>
+
+        <div
+            id="grafico-contabilidad"
+            style="height:450px;">
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- Tablas anexo -->
+    <!-- ===================== -->
+    <h2 class="title">
+        Tablas Anexas
+    </h2>
+    <div class="box">
+        <h4 class="subtitle is-4">
+            Ingresos
+        </h4>
+        <div class="table-container">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Paciente</th>
+                        <th>Paquete</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ingreso in ingresos_qs %}
+                    <tr>
+                        <td>{{ ingreso.fecha }}</td>
+                        <td>{{ ingreso.paciente.nombre }}</td>
+                        <td>{{ ingreso.paquete }}</td>
+                        <td>${{ ingreso.monto }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="has-text-centered">
+                            No hay ingresos registrados.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="box">
+        <h4 class="subtitle is-4">
+            Gastos
+        </h4>
+        <div class="table-container">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Categoria</th>
+                        <th>Descripción</th>
+                        <th>Método de pago</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gastos in gastos_qs %}
+                    <tr>
+                        <td>{{ gastos.fecha }}</td>
+                        <td>{{ gastos.categoria }}</td>
+                        <td>{{ gastos.descripcion }}</td>
+                        <td>{{ gastos.metodo_pago }}</td>
+                        <td>${{ gastos.monto }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="has-text-centered">
+                            No hay gastos registrados.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>

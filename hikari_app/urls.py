@@ -29,4 +29,6 @@ urlpatterns = [
     path("inicio/", views.inicio, name="inicio"),
     path("administracion/", include("administracion.urls", namespace="administracion")),
     path("citas/", include("citas.urls", namespace="citas")),
+    path("dashboard/", include("dashboard.urls", namespace="dashboard")),
+    path("pacientes/", include("pacientes.urls", namespace="pacientes")),
 ]

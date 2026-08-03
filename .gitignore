@@ -14,3 +14,6 @@ staticfiles/
 
 # Archivos de migraciones
 00_migraciones/
+
+# Archivo de prueba
+env_test.ipynb

@@ -21,17 +21,23 @@
                 Inicio
             </a>
 
-            <a class="navbar-item" href={% url "citas:agenda" %}>
+            <a class="navbar-item" href={% url "citas:citas" %}>
                 Agenda
             </a>
 
-            <a class="navbar-item">
+            <a class="navbar-item" href={% url "pacientes:pacientes" %}>
                 Pacientes
             </a>
 
             <a class="navbar-item" href={% url "administracion:administracion" %}>
                 Administración
             </a>
+
+            {% if  request.user.is_superuser == True %}
+            <a class="navbar-item" href={% url "dashboard:dashboard" %}>
+                Dashboard
+            </a>
+            {% endif %}
 
         </div>
 
@@ -42,9 +48,12 @@
             </div>
 
             <div class="navbar-item">
-                <a class="button bulma-primary-light">
-                    Cerrar sesión
-                </a>
+                <form method="post" action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="button bulma-primary-light">
+                        Cerrar sesión
+                    </button>
+                </form>
             </div>
 
         </div>

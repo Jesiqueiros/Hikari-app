@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="columns is-centered">
+    <div class="column is-half">
+
+        <h1 class="title has-text-centered">
+            Registra <span class="tag is-black">gastos</span>
+        </h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="box">
+
+                <!-- Fecha -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.fecha.label }}
+                    </label>
+
+                    <div class="control">
+                        {{ form.fecha }}
+                    </div>
+
+                    {% for error in form.fecha.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Categoria -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.categoria.label }}
+                    </label>
+
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ form.categoria }}
+                        </div>
+                    </div>
+
+                    {% for error in form.hora.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Personal -->
+                <div class="field" id="campo-personal" style="display: none;">
+                    <label class="label">
+                        {{ form.personal.label }}
+                    </label>
+
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ form.personal }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.descripcion.label }}
+                    </label>
+
+                    <div class="control">
+                        {{ form.descripcion }}
+                    </div>
+                </div>
+
+                <!-- Monto -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.monto.label }}
+                    </label>
+
+                    <div class="control">
+                        {{ form.monto }}
+                    </div>
+                </div>
+
+                <!--Metodo de pago-->
+                <div class="field">
+                    <label class="label">
+                        {{ form.metodo_pago.label}}
+                    </label>
+                    
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ form.metodo_pago }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">
+                        Guardar
+                    </button>
+                </div>
+
+                <div class="control">
+                    <a href="{% url 'administracion:administracion' %}" class="button is-light">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const categoria = document.getElementById("id_categoria");
+    const campoPersonal = document.getElementById("campo-personal");
+
+    function mostrarPersonal() {
+        if (categoria.value === "honorarios.") {
+            campoPersonal.style.display = "block";
+        } else {
+            campoPersonal.style.display = "none";
+        }
+    }
+    mostrarPersonal(); // Al cargar la página
+    categoria.addEventListener("change", mostrarPersonal);
+});
+</script>
+{% endblock %}

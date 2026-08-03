@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     "administracion",
     "pacientes",
     "personal",
-    "accounts"
+    "accounts",
+    "dashboard",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [

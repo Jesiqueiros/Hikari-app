@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="columns is-centered">
+    <div class="column is-half">
+
+        <h1 class="title has-text-centered">
+            Nueva cita
+        </h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="box">
+
+                <!-- Fecha -->
+                <div class="field">
+                    <label class="label">
+                        {{ citaForm.fecha.label }}
+                    </label>
+
+                    <div class="control">
+                        {{ citaForm.fecha }}
+                    </div>
+
+                    {% for error in form.fecha.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Hora -->
+                <div class="field">
+                    <label class="label">
+                        {{ citaForm.hora.label }}
+                    </label>
+
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ citaForm.hora }}
+                        </div>
+                    </div>
+
+                    {% for error in form.hora.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!--Terapaueta-->
+                <div class="field">
+                    <label class="label">
+                        {{ citaForm.terapeuta.label}}
+                    </label>
+                    {% if request.user.rol == "SISTEMA"%}
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ citaForm.terapeuta }}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="control">
+                        <input class="input" type="text" value="{{ request.user.nombre }}" readonly />
+                    </div>
+                </div>
+                {% endif %}
+
+                <!--Pacientes-->
+                <div class="field">
+                    <label class="label">
+                        {{ citaForm.paciente.label}}
+                    </label>
+                    
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ citaForm.paciente }}
+                        </div>
+                    </div>
+                </div>
+
+
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">
+                        Guardar
+                    </button>
+                </div>
+
+                <div class="control">
+                    <a href="{% url 'citas:citas' %}" class="button is-light">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

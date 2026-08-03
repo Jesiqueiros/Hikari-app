@@ -5,8 +5,73 @@
 {% block content %}
 
 <div class="container is-fluid">
-    <h3 class="title is-3">Bienvenido, {{ request.user.nombre }}</h3>
-    <p class>Recuerda siempre sonreir.</p>
+
+    <h1 class="title is-3">
+        ¡Bienvenido, {{ request.user.nombre }}! 👋
+    </h1>
+
+    <div class="box">
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">🧒 Pacientes activos</p>
+                    <p class="title">{{ pacientes_activos }}</p>
+                </div>
+            </div>
+
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">🎂 Cumpleaños</p>
+                    <p class="title">{{ cumpleaneros|length }}</p>
+                </div>
+            </div>
+
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading"> 📅 Citas agendadas</p>
+                    <p class="title"> 0 </p>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Cumpleañeros -->
+
+    <div class="box">
+        <h2 class="title is-5">
+            🎊 Cumpleañeros del mes
+        </h2>
+
+        {% if cumpleaneros %}
+
+            {% for cumpleanero in cumpleaneros %}
+
+                <article class="media">
+                    <div class="media-content">
+                        <p>
+                            <strong>{{ cumpleanero.nombre_completo }}</strong><br>
+                            <small>
+                                🎂 {{ cumpleanero.fecha_nacimiento|date:"d \d\e F" }}
+                            </small>
+                        </p>
+                    </div>
+                </article>
+
+                {% if not forloop.last %}
+                    <hr>
+                {% endif %}
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="has-text-grey has-text-centered">
+                No hay cumpleaños este mes 🎈
+            </p>
+
+        {% endif %}
+
+    </div>
 </div>
 
 {% endblock %}

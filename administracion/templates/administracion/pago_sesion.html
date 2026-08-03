@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="columns is-centered">
+    <div class="column is-half">
+
+        <h1 class="title has-text-centered">
+            Registra <span class="tag is-primary">Pago de sesiones</span>
+        </h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="box">
+
+                <!-- Fecha -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.fecha.label }}
+                    </label>
+
+                    <div class="control">
+                        {% render_field form.fecha class="input" type="date" %}
+                    </div>
+                </div>
+
+                <!-- Nombre del paciente -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.paciente.label }}
+                    </label>
+
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {% render_field form.paciente %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tipo de paquete -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.paquete.label }}
+                    </label>
+
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {%render_field form.paquete class="select"%}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monto -->
+                <div class="field">
+                    <label class="label">{{ form.monto.label }}</label>
+
+                    <div class="control">
+                        {% render_field form.monto class="input" placeholder="0.00" %}
+                    </div>
+                </div>
+
+                <!--Metodo de pago-->
+                <div class="field">
+                    <label class="label">
+                        {{ form.metodo_pago.label}}
+                    </label>
+                    
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {% render_field form.metodo_pago class="input" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nota del pago -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.nota_pago.label }}
+                    </label>
+
+                    <div class="control">
+                        {% render_field form.nota_pago class="textarea" rows="2" maxlength="250" %}
+                    </div>
+                </div>
+            
+                <!-- Sesiones que cubre -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.sesiones_cubiertas.label }}
+                    </label>
+
+                    <div class="control">
+                        {% render_field form.sesiones_cubiertas class="input" placeholder="Número de sesiones pagadas" %}
+                    </div>
+                </div>
+
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">
+                        Guardar
+                    </button>
+                </div>
+
+                <div class="control">
+                    <a href="{% url 'administracion:administracion' %}" class="button is-light">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

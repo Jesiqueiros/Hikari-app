@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="columns is-centered">
+
+    <div class="column is-10">
+
+        <h1 class="title">
+            Expediente
+        </h1>
+
+        <form
+            hx-get="{% url 'pacientes:cargar_expediente' %}"
+            hx-target="#expediente"
+            hx-trigger="change">
+            <!-- Paciente -->
+
+            <div class="field">
+
+                <label class="label">
+                    {{ form.paciente.label }}
+                </label>
+
+                <div class="control">
+
+                    <div class="select is-fullwidth">
+
+                        {{ form.paciente }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Opciones -->
+
+            <div class="field">
+
+                <label class="label">
+                    Información a mostrar
+                </label>
+
+                <div class="control">
+
+                    <label class="checkbox">
+                        {{ form.general }}
+                        {{ form.general.label }}
+                    </label>
+
+                </div>
+
+                <div class="control">
+
+                    <label class="checkbox">
+                        {{ form.notas }}
+                        {{ form.notas.label }}
+                    </label>
+
+                </div>
+
+                <div class="control">
+
+                    <label class="checkbox">
+                        {{ form.citas }}
+                        {{ form.citas.label }}
+                    </label>
+
+                </div>
+
+                <div class="control">
+
+                    <label class="checkbox">
+                        {{ form.pagos }}
+                        {{ form.pagos.label }}
+                    </label>
+
+                </div>
+
+            </div>
+
+        </form>
+
+        <hr>
+
+        <div id="expediente">
+
+            <article class="message">
+
+                <div class="message-body">
+
+                    Selecciona un paciente.
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

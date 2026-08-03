@@ -36,14 +36,14 @@ class Empleado(Personal, AbstractUser):
 
     rol = models.CharField(max_length=20, choices=Roles.choices)
 
-    numero_personal = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{10}$', 'El número debe tener exactamente 10 dígitos.')], help_text="El número debe incluir exactamente 10 dígitos.")
+    numero_telefono = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{10}$', 'El número debe tener exactamente 10 dígitos.')], help_text="El número debe incluir exactamente 10 dígitos.")
 
     fecha_ingreso = models.DateField(auto_now_add=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     
-    objects = EmpleadoManager
+    objects = EmpleadoManager()
     
     class Meta:
         db_table = 'empleados'

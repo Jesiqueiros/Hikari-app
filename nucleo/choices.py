@@ -14,7 +14,7 @@ class TipoPaquete(models.TextChoices):
     PAQUETE_COMPARTIDO = "Paquete compartido", "Paquete compartido"
 
 class CategoriaGasto(models.TextChoices):
-    HONORARIOS_TERAPEUTAS = "Pago terapeutas", "Pago terapeutas"
+    HONORARIOS = "Honorarios", "Pago de honorarios"
     SERVICIOS = "Servicios", "Servicios"
     MATERIAL_TERAPEUTICO = "Material terapéutico", "Material terapéutico"
     PAPELERIA_OFICINA = "Papelería y oficina", "Papelería y oficina"
@@ -36,17 +36,23 @@ class EstadoPago(models.TextChoices):
     PENDIENTE = "PENDIENTE", "Pendiente"
     PARCIALMENTE_CUBIERTO = "PARCIALMENTE CUBIERTO", "Parcialmente cubierto"
 
-class estado_cita(models.TextChoices):
+class EstadoCita(models.TextChoices):
     CONSULTADO = "Consultado", "Consultado"
     CONFIRMO = "Confirmo", "Confirmó"
     INNASISTENCIA = "Confirmo pero no asistio", "Confirmó pero no asistió "
-    
-ESTATUS_CONSULTA_CHOICES = [
-    ("Consultado", "Consultado"),
-    ("Ausente", "Ausente",
-     "Confirmado", "Confirmado",
-     "Agendado", "Agendado")]
 
+class RelacionPaciente(models.TextChoices):
+    MADRE = "Madre", "Madre"
+    PADRE = "Padre", "Padre"
+    ABUELO = "Abuelo", "Abuelo" 
+    ABUELA = "Abuela", "Abuela"
+    TUTOR = "Tutor", "Tutor"
+    
+class EstadoCita(models.TextChoices):
+    CONSULTADO = "Consultado", "Consultado",
+    CONFIRMO_NO_ASISTIO = "Confirmó y no asisitió", "Confirmó y no asisitió"
+    AGENDADO =  "Agendado", "Agendado"
+    
 class Horarios(models.TextChoices):
     HORA_0950 = "09:50", "09:50 A.M."
     HORA_1040 = "10:40", "10:40 A.M."

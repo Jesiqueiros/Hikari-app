@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="tabs is-toggle is-fullwidth is-toggle-rounded">
+    <ul>
+      <li>
+        <a
+        hx-get="{% url 'dashboard:contable' %}"
+              hx-target="#contenido">
+              Contable
+          </a>
+      </li>
+
+      <li>
+          <a
+              hx-get="{% url 'dashboard:semanal' %}"
+              hx-target="#contenido">
+              Semanal
+          </a>
+      </li>
+    </ul>
+</div>
+
+<div id="contenido">
+
+</div>
+{% endblock content %}
