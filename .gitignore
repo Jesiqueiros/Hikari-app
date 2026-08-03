@@ -17,3 +17,6 @@ staticfiles/
 
 # Archivo de prueba
 env_test.ipynb
+
+#Ambiente de python
+.venv/
