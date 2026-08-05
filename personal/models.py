@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.validators import RegexValidator
 from nucleo.models import Personal
-from django.contrib.auth.models import UserManager
 
 # Administracion para personal de Hikari
 class EmpleadoManager(UserManager):
