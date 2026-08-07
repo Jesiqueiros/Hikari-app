@@ -1,0 +1,47 @@
+/* Escritorio */
+.fc .fc-toolbar-title {
+    font-size: 1.35rem;
+}
+
+/* Celulares */
+@media (max-width:768px) {
+
+    /* La barra queda más compacta */
+    .fc .fc-toolbar {
+        gap: .5rem;
+        margin-bottom: .75rem;
+    }
+
+    /* Botones más pequeños */
+    .fc .fc-button {
+        padding: .35rem .55rem;
+        font-size: .8rem;
+    }
+
+    /* Título */
+    .fc .fc-toolbar-title {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    /* Altura de las filas */
+    .fc .fc-daygrid-day-frame {
+        min-height: 65px;
+    }
+
+    /* Eventos más pequeños */
+    .fc-event {
+        font-size: .75rem;
+        padding: 1px 2px;
+    }
+
+    /* Días de la semana */
+    .fc-col-header-cell {
+        font-size: .8rem;
+    }
+
+    /* Números de los días */
+    .fc-daygrid-day-number {
+        font-size: .85rem;
+    }
+}
