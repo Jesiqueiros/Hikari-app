@@ -3,89 +3,75 @@
 {% block title %}Pacientes{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container is-fluid">
+
     <div class="mb-6">
         <h1 class="title is-2">
             Pacientes
         </h1>
-        <p>
-            Formularios, notas, información personal y más para pacientes  
+        <p class="subtitle is-6">
+            Formularios, notas, información personal y más para pacientes.
         </p>
     </div>
+
     <div class="columns is-multiline">
-        <!-- Pago de terapias -->
-        <div class="column is-6-tablet is-4-desktop">
-            <div class="card">
-                <div class="card-content">
-                    <p class="title is-4">
-                        📒 Consultar notas
-                    </p>
-                    <p class="content">
-                        Consultas las notas realizadas en las consultas.
-                    </p>
-                </div>
 
-                <footer class="card-footer">
-                    <a href="#"
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
+        <!-- Consultar notas -->
+        <div class="column is-6-tablet is-4-desktop">
+            <div class="box">
+                <h2 class="title is-4">
+                    📒 Consultar notas
+                </h2>
+
+                <p class="mb-5">
+                    Consulta las notas realizadas durante las sesiones de los pacientes.
+                </p>
+
+                <a href="#"
+                   class="button is-dark is-light is-fullwidth">
+                    Ir al módulo
+                </a>
             </div>
         </div>
 
-        <!-- Gastos -->
+        <!-- Expediente -->
         <div class="column is-6-tablet is-4-desktop">
-            <div class="card">
-                <div class="card-content">
-                    <p class="title is-4">
-                        📋 Expediente
-                    </p>
-                    <p class="content">
-                        Notas de las citas, citas previas, información general, pagos del paciente
-                    </p>
-                </div>
+            <div class="box">
+                <h2 class="title is-4">
+                    📋 Expediente
+                </h2>
 
-                <footer class="card-footer">
-                    <a href="{% url "pacientes:expediente" %}"
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
+                <p class="mb-5">
+                    Revisa información general, historial clínico, citas, notas y pagos del paciente.
+                </p>
 
+                <a href="{% url 'pacientes:expediente' %}"
+                   class="button is-dark is-light is-fullwidth">
+                    Ir al módulo
+                </a>
             </div>
-
         </div>
 
-        <!-- Asignación -->
+        <!-- Formulario -->
         <div class="column is-6-tablet is-4-desktop">
+            <div class="box">
+                <h2 class="title is-4">
+                    🖥️ Formulario de registro
+                </h2>
 
-            <div class="card">
-                <div class="card-content">
+                <p class="mb-5">
+                    Genera el formulario para registrar nuevos pacientes de manera sencilla.
+                </p>
 
-                    <p class="title is-4">
-                        🖥️ Formulario de registro
-                    </p>
-
-                    <p class="content">
-                        Genera el formulario para que los nuevos pacientes puedan registrarse.
-                    </p>
-
-                </div>
-
-                <footer class="card-footer">
-                    <a href="#"
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
-
+                <a href="#"
+                   class="button is-dark is-light is-fullwidth">
+                    Ir al módulo
+                </a>
             </div>
-
         </div>
+
     </div>
 
 </div>
-
 
 {% endblock %}
