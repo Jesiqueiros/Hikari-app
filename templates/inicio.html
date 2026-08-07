@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Inicio{% endblock title %}
 
 {% block content %}
 
 <div class="container is-fluid">
-
     <h1 class="title is-3">
         ¡Bienvenido, {{ request.user.nombre }}! 👋
     </h1>
 
-        
     <div class="columns">
 
         <div class="column is-4-desktop is-12-mobile">
@@ -41,37 +39,30 @@
         <h2 class="title is-5">
             🎊 Cumpleañeros del mes
         </h2>
-
         {% if cumpleaneros %}
-
-            {% for cumpleanero in cumpleaneros %}
-
-                <article class="media">
-                    <div class="media-content">
-                        <p>
-                            <strong>{{ cumpleanero.nombre_completo }}</strong><br>
-                            <small>
-                                🎂 {{ cumpleanero.fecha_nacimiento|date:"d \d\e F" }}
-                            </small>
-                        </p>
-                    </div>
-                </article>
-
-                {% if not forloop.last %}
-                    <hr>
-                {% endif %}
-
-            {% endfor %}
-
-        {% else %}
-
-            <p class="has-text-grey has-text-centered">
-                No hay cumpleaños este mes 🎈
-            </p>
-
+        
+        {% for cumpleanero in cumpleaneros %}
+        <article class="media">
+            <div class="media-content">
+                <p>
+                    <strong>{{ cumpleanero.nombre_completo }}</strong><br>
+                    <small>
+                        🎂 {{ cumpleanero.fecha_nacimiento|date:"d \d\e F" }}
+                    </small>
+                </p>
+            </div>
+        </article>
+        {% if not forloop.last %}
+        <hr>
         {% endif %}
 
+        {% endfor %}
+        {% else %}
+        <p class="has-text-grey has-text-centered">
+            No hay cumpleaños este mes 🎈
+        </p>
     </div>
+    {% endif %}
 </div>
 
-{% endblock %}
+{% endblock content %}

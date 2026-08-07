@@ -3,48 +3,39 @@
 <html lang="es" data-theme="light">
 
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Hikari{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Hikari{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock extra_css %}
 </head>
 
 <body>
     {% include "partials/barra_navegacion.html" %}
-    <main class="section">
+    <main class="section is-small" style="min-height: 100vh;">
         {% block content %}
-        {% endblock %}
+        {% endblock content %}
     </main>
+    
+    {% if messages %}
+        {% include "partials/modal.html" %}
+    {% endif %}
+    
+    {% include "partials/footer.html" %}
 
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"
-            integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V"
-            crossorigin="anonymous"></script>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    {% block script %}
 
-        const $navbarBurgers = Array.from(
-            document.querySelectorAll('.navbar-burger')
-        );
+    <script src="{% static 'js/burger.js' %}"></script>
 
-        $navbarBurgers.forEach(el => {
-            el.addEventListener('click', () => {
+    <script src="{% static 'js/modal.js' %}"></script>
 
-                const target = el.dataset.target;
-                const $target = document.getElementById(target);
-
-                el.classList.toggle('is-active');
-                $target.classList.toggle('is-active');
-
-            });
-        });
-
-    });
-    </script>
-
-{% block js %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
+    
+    {% block extra_scripts %}{% endblock %}
+    {% endblock script %}
 
 </body>
-{% include "partials/footer.html" %}
 </html>

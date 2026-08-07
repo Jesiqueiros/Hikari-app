@@ -1,0 +1,61 @@
+<div id="messages-modal" class="modal is-active" data-auto-close="true">
+
+    <div class="modal-background"></div>
+
+    <div class="modal-card">
+
+        {% for message in messages %}
+
+            {% if forloop.first %}
+            <header class="modal-card-head">
+
+                <p class="modal-card-title">
+                    {% if message.tags == "success" %}
+                        ✅ Éxito
+                    {% elif message.tags == "error" %}
+                        ❌ Error
+                    {% elif message.tags == "warning" %}
+                        ⚠️ Advertencia
+                    {% else %}
+                        ℹ️ Información
+                    {% endif %}
+                </p>
+
+                <button class="delete" aria-label="close"></button>
+
+            </header>
+
+            <section class="modal-card-body">
+            {% endif %}
+
+                <article class="message
+                    {% if message.tags == 'success' %}
+                        is-success
+                    {% elif message.tags == 'error' %}
+                        is-danger
+                    {% elif message.tags == 'warning' %}
+                        is-warning
+                    {% else %}
+                        is-info
+                    {% endif %}
+                ">
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+
+            {% if forloop.last %}
+            </section>
+            {% endif %}
+
+        {% endfor %}
+
+        <footer class="modal-card-foot is-justify-content-flex-end">
+            <button class="button is-primary">
+                Aceptar
+            </button>
+        </footer>
+
+    </div>
+
+</div>
