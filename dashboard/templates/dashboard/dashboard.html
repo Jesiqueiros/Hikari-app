@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-
 <div class="tabs is-toggle is-fullwidth is-toggle-rounded">
     <ul>
       <li>
@@ -25,4 +24,9 @@
 <div id="contenido">
 
 </div>
+
 {% endblock content %}
+
+{% block extra_scripts %}
+<script src="https://cdn.plot.ly/plotly-3.1.0.min.js"></script>
+{% endblock extra_scripts %}
