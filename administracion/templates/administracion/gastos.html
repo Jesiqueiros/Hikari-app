@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
 
 <div class="columns is-centered">
     <div class="column is-half">
 
-        <h1 class="title has-text-centered">
-            Registra <span class="tag is-black">gastos</span>
+        <h1 class="title is-title-2 has-text-centered">
+            Gastos
         </h1>
 
         <form method="post">
@@ -21,7 +22,7 @@
                     </label>
 
                     <div class="control">
-                        {{ form.fecha }}
+                        {{ form.fecha|add_class:"input"|attr:"type:date" }}
                     </div>
 
                     {% for error in form.fecha.errors %}
@@ -29,7 +30,7 @@
                     {% endfor %}
                 </div>
 
-                <!-- Categoria -->
+                <!-- Categoría -->
                 <div class="field">
                     <label class="label">
                         {{ form.categoria.label }}
@@ -37,11 +38,11 @@
 
                     <div class="control">
                         <div class="select is-fullwidth">
-                            {{ form.categoria }}
+                            {{ form.categoria|add_class:"is-fullwidth" }}
                         </div>
                     </div>
 
-                    {% for error in form.hora.errors %}
+                    {% for error in form.categoria.errors %}
                         <p class="help is-danger">{{ error }}</p>
                     {% endfor %}
                 </div>
@@ -54,9 +55,13 @@
 
                     <div class="control">
                         <div class="select is-fullwidth">
-                            {{ form.personal }}
+                            {{ form.personal|add_class:"is-fullwidth" }}
                         </div>
                     </div>
+
+                    {% for error in form.personal.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
                 </div>
 
                 <!-- Descripción -->
@@ -66,8 +71,12 @@
                     </label>
 
                     <div class="control">
-                        {{ form.descripcion }}
+                        {{ form.descripcion|add_class:"textarea"|attr:"rows:4"|attr:"placeholder:Describe el gasto..." }}
                     </div>
+
+                    {% for error in form.descripcion.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
                 </div>
 
                 <!-- Monto -->
@@ -77,22 +86,49 @@
                     </label>
 
                     <div class="control">
-                        {{ form.monto }}
+                        {{ form.monto|add_class:"input" }}
                     </div>
+
+                    {% for error in form.monto.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
                 </div>
 
-                <!--Metodo de pago-->
+                <!-- Método de pago -->
                 <div class="field">
                     <label class="label">
-                        {{ form.metodo_pago.label}}
+                        {{ form.metodo_pago.label }}
                     </label>
-                    
+
                     <div class="control">
                         <div class="select is-fullwidth">
-                            {{ form.metodo_pago }}
+                            {{ form.metodo_pago|add_class:"is-fullwidth" }}
                         </div>
                     </div>
+
+                    {% for error in form.metodo_pago.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
                 </div>
+
+                <!-- Estado del pago -->
+                <div class="field">
+                    <label class="label">
+                        {{ form.estado_pago.label }}
+                    </label>
+
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ form.estado_pago|add_class:"is-fullwidth" }}
+                        </div>
+                    </div>
+
+                    {% for error in form.estado_pago.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+            </div>
 
             <div class="field is-grouped is-grouped-right">
                 <div class="control">
@@ -112,20 +148,5 @@
 
     </div>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const categoria = document.getElementById("id_categoria");
-    const campoPersonal = document.getElementById("campo-personal");
 
-    function mostrarPersonal() {
-        if (categoria.value === "honorarios.") {
-            campoPersonal.style.display = "block";
-        } else {
-            campoPersonal.style.display = "none";
-        }
-    }
-    mostrarPersonal(); // Al cargar la página
-    categoria.addEventListener("change", mostrarPersonal);
-});
-</script>
 {% endblock %}

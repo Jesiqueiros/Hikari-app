@@ -18,19 +18,8 @@ class GastoForm(forms.ModelForm):
                   "personal": "Empleado",
                   "descripcion": "Descripción",
                   "monto": "Monto",
-                  "metodo_pago": "Método de pago"}
-        
-        #Widgets
-        widgets = {
-            "fecha": forms.DateInput(attrs={"type": "date", "class": "input"}),
-            "descripcion": forms.Textarea(attrs={"class":"textarea", 
-                                               "rows":4, 
-                                               "placeholder": "Breve descripcion del gasto..."}),
-            "categoria": forms.Select(attrs={"class":"select"}),
-            "metodo_pago": forms.Select(attrs={"class":"select"}),
-            "monto": forms.NumberInput(attrs={"class":"input"}),
-            "personal": forms.Select(attrs={"class":"select"}),
-        }
+                  "metodo_pago": "Método de pago",
+                  "estado_pago": "Estado del gasto"}
         
     def __init__(self, *args, **kwargs):
 

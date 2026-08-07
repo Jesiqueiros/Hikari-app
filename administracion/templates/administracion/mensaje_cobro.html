@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="mb-6">
+
+    <h1 class="title is-2">
+        Mensajes de cobro
+    </h1>
+
+    <p class="subtitle">
+        Pacientes con consultas pendientes de pago.
+    </p>
+
+</div>
+
+{% for item in pacientes %}
+
+<div class="box mb-5">
+
+    <div class="level">
+
+        <div class="level-left">
+
+            <div>
+
+                <h2 class="title is-4">
+                    {{ item.paciente }}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="level-right">
+
+        <button
+            class="button is-primary"
+            onclick="copiarMensaje(this)"
+            data-mensaje="{{ item.mensaje }}">
+            Copiar mensaje
+        </button>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="columns">
+
+        <div class="column">
+
+            <p class="has-text-weight-semibold">
+                Fechas pendientes
+            </p>
+
+            <div class="tags">
+
+                {% for fecha in item.fechas %}
+                    <span class="tag is-warning is-light">
+                        {{ fecha }}
+                    </span>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        <p class="has-text-weight-semibold">
+            Vista previa del mensaje
+        </p>
+
+        <div class="box has-background-light">
+            <pre style="white-space: pre-wrap; font-family: inherit;">{{ item.mensaje }}</pre>
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="notification is-success">
+
+    No existen pacientes con pagos pendientes.
+
+</div>
+
+{% endfor %}
+
+{% block extra_scripts %}
+<script>
+function copiarMensaje(button) {
+
+    const mensaje = button.dataset.mensaje;
+
+    navigator.clipboard.writeText(mensaje)
+        .then(() => {
+
+            const textoOriginal = button.textContent;
+
+            button.textContent = "¡Copiado!";
+            button.classList.remove("is-primary");
+            button.classList.add("is-success");
+
+            setTimeout(() => {
+                button.textContent = textoOriginal;
+                button.classList.remove("is-success");
+                button.classList.add("is-primary");
+            }, 2000);
+
+        })
+        .catch(err => {
+            alert("No fue posible copiar el mensaje.");
+            console.error(err);
+        });
+
+}
+</script>
+{% endblock extra_scripts %}
+
+{% endblock %}

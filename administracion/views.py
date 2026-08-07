@@ -1,16 +1,21 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.utils import timezone
 from datetime import timedelta
 
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.aggregates import StringAgg
 from django.db import transaction
-from .forms import GastoForm, PagoSesionForm
-
-from .models import PagoSesion
-from citas.models import Cita
-
 from django.db.models import F
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+
+
+from citas.models import Cita
+from .forms import GastoForm, PagoSesionForm
+from .models import PagoSesion
+from nucleo.choices import EstadoCita
+from nucleo.func import construir_mensaje
+from pacientes.models import Paciente
+
 
 # Create your views here.
 def administracion(request):
@@ -26,7 +31,7 @@ def gastos(request):
             try:
                 form.save()
                 messages.success(request, "El gasto se registró correctamente.")
-                return redirect("adminstracion:gastos")
+                return redirect("administracion:gastos")
 
             except Exception:
                 messages.error(request, "Ocurrió un error al guardar la información. Inténtalo nuevamente.")
@@ -110,6 +115,39 @@ def asignar_cita(request, id):
     return render(request, "administracion/asignar_cita.html",
                   {"pago": pago,
                    "citas": citas})
-    
 
 
+@login_required
+def mensajes_cobro(request):
+    # pacientes con citas pendientes de pagar
+    pacientes = Paciente.objects.filter(
+        citas__pago__isnull=True,
+        citas__liquidada=False,
+        citas__status=EstadoCita.CONSULTADO,
+    ).distinct().exclude(id=0).order_by("nombre") # Quitar a paciente no registrado
+    pacientes_contexto = []
+
+    # iterar para conseguir las fechas para cada paciente
+    for paciente in pacientes:
+        citas = paciente.citas.filter(
+            pago__isnull=True,
+            liquidada=False,
+            status=EstadoCita.CONSULTADO
+            )
+            
+        # fechas con deuda
+        fechas = [cita.fecha.strftime("%d/%m")for cita in citas]
+
+        pacientes_contexto.append({
+            "paciente": paciente,
+            "fechas": fechas,
+            "mensaje": construir_mensaje(paciente.nombre_completo, fechas)
+            })
+        
+    #Contexto para html
+    context = {
+        "pacientes": pacientes_contexto
+    }
+
+
+    return render(request, "administracion/mensaje_cobro.html", context)

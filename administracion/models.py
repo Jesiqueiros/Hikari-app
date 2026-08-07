@@ -33,3 +33,28 @@ class Gasto(models.Model):
     class Meta:
         db_table = "gastos"
         ordering = ["-fecha"]
+        
+        
+class MensajeCobro(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+
+    paciente = models.ForeignKey(
+        Paciente,
+        on_delete=models.CASCADE,
+        related_name="mensajes_cobro"
+    )
+
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+
+    enviado_por = models.ForeignKey(
+        Empleado,
+        on_delete=models.PROTECT
+    )
+
+    fechas_recordadas = models.CharField(max_length=255)
+
+    observaciones = models.TextField(blank=True)
+    
+    class Meta:
+        db_table = "mensajes_cobro"
+        ordering = ["paciente", "fecha_envio"]
