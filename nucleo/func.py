@@ -7,3 +7,15 @@ def ColorCita(status):
         return '#0000FF'
     else:
         return '#FF0000'
+    
+def construir_mensaje(paciente, fechas):
+
+    plural = len(fechas) > 1
+
+    return (
+        f"Hola, buen día 🌈✨\n\n"
+        f"Le compartimos la{'s fechas pendientes' if plural else ' fecha pendiente'} de *{paciente}*:\n\n"
+        f"• " + "\n• ".join(fechas) +
+        "\n\nAgradecemos su apoyo para realizar el pago y enviar su comprobante por este medio.\n\n"
+        "Si ya fue cubierto, favor de omitir este mensaje 💫"
+    )
