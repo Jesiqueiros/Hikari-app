@@ -1,32 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="tabs is-toggle is-fullwidth is-toggle-rounded">
-    <ul>
-      <li>
-        <a
-        hx-get="{% url 'dashboard:contable' %}"
-              hx-target="#contenido">
-              Contable
-          </a>
-      </li>
+<div class="column is-4">
+    <div class="box">
+        <h2 class="title is-5">Contabilidad</h2>
+        <p class="mb-4">
+            Resumen semanal de ingresos y consultas.
+        </p>
 
-      <li>
-          <a
-              hx-get="{% url 'dashboard:semanal' %}"
-              hx-target="#contenido">
-              Semanal
-          </a>
-      </li>
-    </ul>
+        <a
+            class="button is-primary is-fullwidth"
+            href="{% url 'dashboard:contable' %}">
+            Abrir tablero
+        </a>
+    </div>
 </div>
 
-<div id="contenido">
+<div class="column is-4">
+    <div class="box">
+        <h2 class="title is-5">Semanal</h2>
+        <p class="mb-4">
+            Consulta las sesiones pendientes por liquidar para cada terapeuta.
+        </p>
 
+        <a
+            class="button is-primary is-fullwidth"
+            href="{% url 'dashboard:semanal' %}">
+            Abrir tablero
+        </a>
+    </div>
 </div>
 
 {% endblock content %}
-
-{% block extra_scripts %}
-<script src="https://cdn.plot.ly/plotly-3.1.0.min.js"></script>
-{% endblock extra_scripts %}

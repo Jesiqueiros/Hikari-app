@@ -110,7 +110,7 @@ def asignar_cita(request, id):
 
         messages.success(request, "Citas asignadas correctamente.")
 
-        return redirect("contabilidad:citas_pagadas")
+        return redirect("administracion:pago_paquete")
 
     return render(request, "administracion/asignar_cita.html",
                   {"pago": pago,

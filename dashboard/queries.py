@@ -3,6 +3,11 @@ from django.utils import timezone
 from datetime import timedelta
 from nucleo.choices import MetodoPago, EstadoPago
 from administracion.models import PagoSesion, Gasto
+from citas.models import Cita
+
+from django.db.models import F, Value, FloatField, ExpressionWrapper, CharField
+from django.db.models.functions import Concat
+
 
 # Valores para filtrar
 transferencia = MetodoPago.TRANSFERENCIA
@@ -118,4 +123,31 @@ def tabla_anexo_gastos():
     gastos = Gasto.objects.exclude(estado_pago=EstadoPago.PAGADO).all()
     return gastos
     
-    
+
+def consultas_cobradas(terapeuta_id=None):
+
+    citas = Cita.objects.filter(
+        liquidada=False,
+        pago__isnull=False,
+    )
+
+    if terapeuta_id:
+        citas = citas.filter(terapeuta_id=terapeuta_id)
+
+    return (
+        citas
+        .annotate(
+            monto=ExpressionWrapper(
+                F("pago__monto") / F("pago__sesiones_cubiertas"),
+                output_field=FloatField(),
+            )
+        )
+        .values(
+            "monto",
+            fecha_cita=F("fecha"),
+            hora_cita=F("hora"),
+            nombre_paciente=F("paciente__nombre"),
+            nombre_terapeuta=F("terapeuta__nombre"),
+            metodo_pago=F("pago__metodo_pago"),
+        )
+    )

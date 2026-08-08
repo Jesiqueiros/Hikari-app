@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="title">TABLERO SEMANAL</h1>
+
+<form method="get">
+    <div class="field">
+        <label class="label">Terapeuta</label>
+
+        <div class="control">
+            <div class="select">
+                <select name="terapeuta" onchange="this.form.submit()">
+                    <option value="">Todos los terapeutas</option>
+
+                    {% for terapeuta in terapeutas %}
+                        <option
+                            value="{{ terapeuta.id }}"
+                            {% if terapeuta.id|stringformat:"s" == terapeuta_id %}selected{% endif %}>
+                            {{ terapeuta.nombre_completo }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="box">
+    <h4 class="subtitle is-4">
+        Citas cobradas
+    </h4>
+    <div class="table-container">
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Paciente</th>
+                    <th>Método de pago</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cita in citas  %}
+                <tr>
+                    <td>{{ cita.fecha_cita | date:"d F Y"}}</td>
+                    <td>{{ cita.hora_cita }}</td>
+                    <td>{{ cita.nombre_paciente }}</td>
+                    <td>{{ cita.nombre_terapeuta }}</td>
+                    <td>{{ cita.metodo_pago }}</td>
+                    <td>${{ cita.precio_sesion }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="has-text-centered">
+                        No hay citas cobradas.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock content %}

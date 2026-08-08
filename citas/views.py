@@ -69,7 +69,7 @@ def agendar(request):
                 cita.save()
                 
                 messages.success(request, "Consulta registrada exitosamente.")
-                return redirect("citas:citas")
+                return redirect("citas:agendar")
             
     else:
         form = CitaForm()

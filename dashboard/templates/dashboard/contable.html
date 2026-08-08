@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+
 <h2 class="title is-title-2 has-text-centered">
     <i class="bi bi-bar-chart-line-fill me-2"></i>
     Reporte | Semana {{week}}
@@ -197,3 +200,9 @@
         </table>
     </div>
 </div>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script src="https://cdn.plot.ly/plotly-3.1.0.min.js"></script>
+{% endblock extra_scripts %}
