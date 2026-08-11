@@ -5,14 +5,17 @@ from nucleo.choices import MetodoPago, EstadoPago
 from administracion.models import PagoSesion, Gasto
 from citas.models import Cita
 
-from django.db.models import F, Value, FloatField, ExpressionWrapper, CharField
-from django.db.models.functions import Concat
+from django.db.models import F,ExpressionWrapper, FloatField, IntegerField
+from django.db.models import Sum, Q
+from django.db.models.functions import Coalesce
+from math import ceil
 
 
 # Valores para filtrar
 transferencia = MetodoPago.TRANSFERENCIA
 efectivo = MetodoPago.EFECTIVO
 
+# Regresa la fecha actual para calcular semana, anio y fechas historicas
 def current_day():
     
     today = timezone.now()
@@ -23,131 +26,59 @@ def current_day():
     
     return year, week, fecha_historica
 
-def query(sql, params=None):
-    """Ejecuta una consulta SQL y devuelve una lista de diccionarios."""
 
-    with connection.cursor() as cursor:
-        cursor.execute(sql, params or [])
-        
-        # Fetch column names from the cursor description 
-        columns = [col[0] for col in cursor.description]
-        
-        # Combine column names and row values into a list of dictionaries
-        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+# TABLERO DE CONTABILIDAD. INGRESOS Y GASTOS SEMANALES
+def ingresos_historicos_qs():
+    _,_,fecha_historica = current_day()
+    return PagoSesion.objects.filter(fecha__gte=fecha_historica)
 
-        return results
-    
-def metrica_ingresos():
-    
-    TR = MetodoPago.TRANSFERENCIA
-    EF = MetodoPago.EFECTIVO
-    
-    year, week, _ = current_day()
-
-    sql = """
-        select
-            sum(case when metodo_pago = %s then monto else 0 end) as transferencia,
-            sum(case when metodo_pago = %s then monto else 0 end) as efectivo,
-            sum(monto) as total
-        from pago_sesiones
-        where
-            extract(WEEK from fecha) = %s
-            AND extract(year from fecha) = %s
-    """
-
-    return query(sql, [TR, EF, week, year])[0]
-
-def metrica_gastos():
-    TR = MetodoPago.TRANSFERENCIA
-    EF = MetodoPago.EFECTIVO
-
-    sql = """
-        select
-            sum(case when metodo_pago = %s then monto else 0 end) as transferencia,
-            sum(case when metodo_pago = %s then monto else 0 end) as efectivo,
-            sum(monto) as total
-        from gastos
-        where estado_pago != 'PAGADO';
-        """
-    return query(sql, [TR, EF])[0]
-
-    
-def datos_grafico_contabilidad():
-
-    _, _, fecha_inicio = current_day()
-
-    sql = """
-        SELECT
-            date_trunc('week', fecha)::date AS semana,
-            SUM(ingresos) AS ingresos,
-            SUM(gastos) AS gastos
-        FROM (
-            SELECT
-                fecha,
-                monto AS ingresos,
-                0 AS gastos
-            FROM pago_sesiones
-            WHERE fecha >= %s
-
-            UNION ALL
-
-            SELECT
-                fecha,
-                0 AS ingresos,
-                monto AS gastos
-            FROM gastos
-            WHERE fecha >= %s
-        ) movimientos
-        GROUP BY
-            date_trunc('week', fecha)
-        ORDER BY
-            date_trunc('week', fecha);
-    """
-
-    return query(sql, [fecha_inicio, fecha_inicio])
-
+def gastos_historicos_qs():
+    _,_,fecha_historica = current_day()
+    return Gasto.objects.filter(fecha__gte=fecha_historica)
 
 def tabla_anexo_ingreso():
-    # get current date
     year, week, _ = current_day()
+    return ingresos_historicos_qs().filter(fecha__week=week, fecha__year=year)
+
+def tabla_anexo_gasto():
+    return gastos_historicos_qs().exclude(estado_pago=EstadoPago.PAGADO)
+
+def ingreso_por_metodo(ingreso_qs):
+    return ingreso_qs.aggregate(
+        efectivo=Coalesce(Sum("monto", filter=Q(metodo_pago=MetodoPago.EFECTIVO)), 0, output_field=FloatField()),
+        transferencia=Coalesce(Sum("monto", filter=Q(metodo_pago=MetodoPago.TRANSFERENCIA)),0,output_field=FloatField()),
+        total = Coalesce(Sum("monto"),0,output_field=FloatField()))
     
-    # Constuir queries
-    ingresos = PagoSesion.objects \
-        .filter(fecha__week=week, fecha__year=year) \
-        .all()
-        
-    return ingresos
-        
-def tabla_anexo_gastos():
-    # Construir query
-    gastos = Gasto.objects.exclude(estado_pago=EstadoPago.PAGADO).all()
-    return gastos
-    
+def gasto_por_metodo(gasto_qs):
+    return gasto_qs.aggregate(
+        efectivo=Coalesce(Sum("monto", filter=Q(metodo_pago=MetodoPago.EFECTIVO)), 0, output_field=FloatField()),
+        transferencia=Coalesce(Sum("monto", filter=Q(metodo_pago=MetodoPago.TRANSFERENCIA)),0,output_field=FloatField()),
+        total = Coalesce(Sum("monto"),0,output_field=FloatField()))
 
-def consultas_cobradas(terapeuta_id=None):
-
-    citas = Cita.objects.filter(
-        liquidada=False,
-        pago__isnull=False,
-    )
-
-    if terapeuta_id:
-        citas = citas.filter(terapeuta_id=terapeuta_id)
-
-    return (
-        citas
-        .annotate(
-            monto=ExpressionWrapper(
-                F("pago__monto") / F("pago__sesiones_cubiertas"),
-                output_field=FloatField(),
-            )
-        )
-        .values(
-            "monto",
-            fecha_cita=F("fecha"),
-            hora_cita=F("hora"),
-            nombre_paciente=F("paciente__nombre"),
+def consultas_cobradas(terapeuta_id):
+    # Get objects
+    consultas =  Cita.objects.filter(pago_id__isnull=False, liquidada=False, terapeuta_id__in=(2,3,4)) \
+        .exclude(pago__sesiones_cubiertas=0).values(
+            "fecha", 
+            "hora", 
+            "terapeuta_id",
+            "pago__monto", 
             nombre_terapeuta=F("terapeuta__nombre"),
-            metodo_pago=F("pago__metodo_pago"),
-        )
+            nombre_paciente=F("paciente__nombre"),
+            forma_pago=F("pago__metodo_pago"),
+            sesiones_cubiertas=F("pago__sesiones_cubiertas")
+            ) \
+            .annotate(precio=ExpressionWrapper(F("pago__monto") / F("sesiones_cubiertas"), output_field=FloatField()))
+    
+    if terapeuta_id:
+        consultas = consultas.filter(terapeuta_id=terapeuta_id)
+    
+    return consultas
+
+
+def metrica_consultas_cobradas(qs):
+    return qs.aggregate(
+        efectivo=Coalesce(Sum("precio", filter=Q(forma_pago=MetodoPago.EFECTIVO)),0,output_field=IntegerField()),
+        transferencia=Coalesce(Sum("precio", filter=Q(forma_pago=MetodoPago.TRANSFERENCIA)),0,output_field=IntegerField()),
+        total=Coalesce(Sum("precio"), 0, output_field=FloatField())
     )

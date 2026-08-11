@@ -1,67 +1,241 @@
 {% extends "base.html" %}
+
 {% block content %}
 
-<h1 class="title">TABLERO SEMANAL</h1>
+<div class="container is-fluid">
+    <h1 class="title is-2 mb-2">
+        Consultas cobradas
+    </h1>
+    <p class="subtitle is-5">
+        Resumen financiero · Semana {{ semana }}
+    </p>
 
-<form method="get">
-    <div class="field">
-        <label class="label">Terapeuta</label>
-
-        <div class="control">
-            <div class="select">
-                <select name="terapeuta" onchange="this.form.submit()">
-                    <option value="">Todos los terapeutas</option>
-
-                    {% for terapeuta in terapeutas %}
-                        <option
-                            value="{{ terapeuta.id }}"
-                            {% if terapeuta.id|stringformat:"s" == terapeuta_id %}selected{% endif %}>
-                            {{ terapeuta.nombre_completo }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+    <div class="box">
+        <div class="column is-narrow">
+            <form method="get">
+                <div class="field">
+                    <label class="label">
+                        Terapeuta
+                    </label>
+                    <div class="control">
+                        <div class="select">
+                            <select
+                                name="terapeuta"
+                                onchange="this.form.submit()">
+                                <option value="">
+                                    Todos los terapeutas
+                                </option>
+                                {% for terapeuta in terapeutas %}
+                                    <option
+                                        value="{{ terapeuta.id }}"
+                                        {% if terapeuta.id|stringformat:"s" == terapeuta_id %}
+                                            selected
+                                        {% endif %}>
+                                        {{ terapeuta.nombre_completo }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
 
-<div class="box">
-    <h4 class="subtitle is-4">
-        Citas cobradas
-    </h4>
-    <div class="table-container">
-        <table class="table is-fullwidth">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Paciente</th>
-                    <th>Método de pago</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cita in citas  %}
-                <tr>
-                    <td>{{ cita.fecha_cita | date:"d F Y"}}</td>
-                    <td>{{ cita.hora_cita }}</td>
-                    <td>{{ cita.nombre_paciente }}</td>
-                    <td>{{ cita.nombre_terapeuta }}</td>
-                    <td>{{ cita.metodo_pago }}</td>
-                    <td>${{ cita.precio_sesion }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="has-text-centered">
-                        No hay citas cobradas.
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+    <div class="columns is-variable is-5 mb-6">
+        <div class="column is-8">
+            <div class="box">
+                <div class="mb-4">
+                    <h2 class="title is-5 mb-1">
+                        Ingreso semanal por método de pago
+                    </h2>
+                    <p class="is-size-7 has-text-grey">
+                        Distribución de los ingresos registrados durante la semana.
+                    </p>
+                </div>
+
+                {% if grafico %}
+
+                    <div class="is-flex is-justify-content-center">
+
+                        {{ grafico | safe }}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="has-text-centered py-6">
+
+                        <p class="has-text-grey">
+                            No hay información disponible para mostrar.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="column is-4">
+            <div class="is-flex is-flex-direction-column gap-4">
+                <div class="box">
+                    <p class="is-size-7 has-text-grey has-text-weight-semibold mb-2">
+                        Cobrado en efectivo
+                    </p>
+
+                    <p class="title is-3 mb-3">
+                        ${{ ingreso_bruto.efectivo|floatformat:2 }}
+                    </p>
+                </div>
+                <div class="box">
+                    <p class="is-size-7 has-text-grey has-text-weight-semibold mb-2">
+                        Cobrado en transferencia
+                    </p>
+
+                    <p class="title is-3 mb-3">
+                        ${{ ingreso_bruto.transferencia|floatformat:2 }}
+                    </p>
+                </div>
+
+                <div class="box">
+                    <p class="is-size-7 has-text-grey has-text-weight-semibold mb-2">
+                        Ganado en efectivo
+                    </p>
+                    <p class="title is-3 mb-3">
+                        ${{ ingreso_neto.efectivo|floatformat:2 }}
+                    </p>
+
+                    <div class="is-flex is-justify-content-space-between is-align-items-center">
+
+                        <span class="is-size-7 has-text-grey">
+                            Descuento
+                        </span>
+
+                        <span class="has-text-danger has-text-weight-bold">
+                            ${{ gasto_terapeuta.efectivo|floatformat:2 }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- GANADO TRANSFERENCIA -->
+                <!-- ============================= -->
+
+                <div class="box">
+
+                    <p class="is-size-7 has-text-grey has-text-weight-semibold mb-2">
+                        Ganado en transferencia
+                    </p>
+
+                    <p class="title is-3 mb-3">
+                        ${{ ingreso_neto.transferencia|floatformat:2 }}
+                    </p>
+
+                    <div class="is-flex is-justify-content-space-between is-align-items-center">
+
+                        <span class="is-size-7 has-text-grey">
+                            Descuento
+                        </span>
+
+                        <span class="has-text-danger has-text-weight-bold">
+                            ${{ gasto_terapeuta.transferencia|floatformat:2 }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================== -->
+    <!-- TABLAS ANEXO -->
+    <!-- ===================================== -->
+
+    <div class="mb-5">
+
+        <h2 class="title is-4 mb-1">
+            Tablas anexo
+        </h2>
+
+        <p class="is-size-7 has-text-grey">
+            Detalle de los movimientos incluidos en el resumen.
+        </p>
+
+    </div>
+
+
+    <!-- ===================================== -->
+    <!-- TABLA: CONSULTAS COBRADAS -->
+    <!-- ===================================== -->
+
+    <div class="box">
+
+        <div class="mb-4">
+
+            <h3 class="title is-5 mb-1">
+                Consultas cobradas
+            </h3>
+
+            <p class="is-size-7 has-text-grey">
+                Detalle de las consultas cobradas durante el periodo.
+            </p>
+
+        </div>
+
+
+        <div class="table-container">
+            <table class="table is-fullwidth is-hoverable is-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Paciente</th>
+                        <th>Precio</th>
+                        <th>Método de pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if citas %}
+                    {% for cita in citas  %}
+                    <tr>
+                        <td>{{cita.fecha | date:"d F Y"}}</td>
+                        <td>{{cita.hora}}</td>
+                        <td>{{cita.nombre_paciente}}</td>
+                        <td>{{cita.precio}}</td>
+                        <td>{{cita.forma_pago}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="has-text-centered has-text-grey">
+                            Sin datos
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2">Total</th>
+                        <th>{{total_pacientes}}</th>
+                        <th>${{ingreso_bruto.total}} MXN</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 
-
-
-{% endblock content %}
+{% endblock %}
