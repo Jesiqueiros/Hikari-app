@@ -75,7 +75,7 @@ def pago_sesion(request):
 @login_required
 def pago_paquetes(request):
     """Carga los paquetes pagado para posteriomente realizar la asignacion de cada pago/paquete con su respectiva sesión."""
-    referencia_pago = PagoSesion.objects.filter(sesiones_asignadas__lt=F("sesiones_cubiertas")).order_by("fecha", "paciente_id__nombre")
+    referencia_pago = PagoSesion.objects.filter(sesiones_asignadas__lt=F("sesiones_cubiertas")).order_by("-fecha", "paciente_id__nombre")
     
     return render(request, "administracion/pago_paquetes.html", context={"referencias": referencia_pago})
 
@@ -88,7 +88,8 @@ def asignar_cita(request, id):
     citas = Cita.objects.filter(
         pago.paciente.filtro_familia(),
         pago_id__isnull=True,
-        fecha__gte=timezone.now() - timedelta(days=60)
+        fecha__gte=timezone.now() - timedelta(days=60),
+        liquidada=False,
     ).order_by("fecha")
     
     if request.method == "POST":
@@ -110,7 +111,7 @@ def asignar_cita(request, id):
 
         messages.success(request, "Citas asignadas correctamente.")
 
-        return redirect("administracion:pago_paquete")
+        return redirect("administracion:pago_paquetes")
 
     return render(request, "administracion/asignar_cita.html",
                   {"pago": pago,
