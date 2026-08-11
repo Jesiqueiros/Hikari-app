@@ -17,29 +17,48 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+load_dotenv()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
-# SECURITY WARNING: keep the secret key used in production secret!
+DEBUG = ENVIRONMENT == "development"
+
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "hikari.up.railway.app",
-    "192.168.0.189"
-]
+if ENVIRONMENT == "development":
 
-# Allowed CSRF 
-CSRF_TRUSTED_ORIGINS = ["https://hikari.up.railway.app"]
+    ALLOWED_HOSTS = [
+        "localhost",
+        "127.0.0.1",
+        "192.168.0.189",
+    ]
 
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
+
+
+elif ENVIRONMENT == "production":
+    ALLOWED_HOSTS = [
+        "hikari.up.railway.app",
+    ]
+
+    CSRF_TRUSTED_ORIGINS = [
+        "https://hikari.up.railway.app",
+    ]
+
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+
+else:
+    raise ValueError("ENVIRONMENT no válido")
+    
 # Application definition
 
 INSTALLED_APPS = [
