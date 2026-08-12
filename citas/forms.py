@@ -6,39 +6,63 @@ from pacientes.models import Paciente
 from personal.models import Empleado
 
 class CitaForm(forms.ModelForm):
-    
+
     class Meta:
         model = Cita
-        fields = ["fecha", "hora", "terapeuta", "liquidada", "paciente"]
-        
+        fields = [
+            "fecha",
+            "hora",
+            "terapeuta",
+            "liquidada",
+            "paciente",
+            "nota",
+        ]
+
         labels = {
             "fecha": "Fecha consulta",
             "hora": "Hora consulta",
-            "paciente_id": "Nombre del paciente",
-            "liquidada": "¿Sé te pago la consulta?",
-            "terapeuta": "Nombre Terapeuta"
+            "paciente": "Nombre del paciente",
+            "liquidada": "¿Se te pagó la consulta?",
+            "terapeuta": "Nombre Terapeuta",
         }
-        
-        #Widgets
+
         widgets = {
-            "fecha": forms.DateInput(attrs={"type": "date", "class": "input"}),
-            "hora": forms.Select(attrs={"class": "input"}),
+            "fecha": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "input"
+                }
+            ),
+            "hora": forms.Select(
+                attrs={
+                    "class": "input"
+                }
+            ),
         }
 
-    def __init__(self, *args, **kwargs):
-
+    def __init__(self, *args, usuario=None, **kwargs):
         super().__init__(*args, **kwargs)
-        
 
-        self.fields["paciente"].queryset = Paciente \
-            .objects.filter(activo=True) \
+        if usuario.rol == "SOCIO":
+            self.fields.pop("terapeuta")
+            self.fields.pop("liquidada")
+
+        elif usuario.rol == "TERAPEUTA":
+            self.fields.pop("terapeuta")
+
+        self.fields["paciente"].queryset = (
+            Paciente.objects
+            .filter(activo=True)
             .order_by("nombre")
-        
-        self.fields["terapeuta"].queryset = Empleado \
-            .objects.filter( is_active=True) \
-            .order_by("id")
-            
-        self.fields["fecha"].initial = timezone.localdate().isoformat()
-        
+        )
+
+        if "terapeuta" in self.fields:
+            self.fields["terapeuta"].queryset = (
+                Empleado.objects
+                .filter(is_active=True)
+                .order_by("id")
+            )
+
+        self.fields["fecha"].initial = timezone.localdate()
 
         

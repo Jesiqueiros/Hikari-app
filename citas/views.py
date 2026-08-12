@@ -46,33 +46,46 @@ def citas_json(request):
 @login_required
 def agendar(request):
     if request.method == "POST":
-        form = CitaForm(request.POST)
         
+        form = CitaForm(request.POST, usuario=request.user)
+
         if form.is_valid():
+
             datos = form.cleaned_data
-            existe = Cita.objects.filter(
-                fecha=datos["fecha"],
-                hora=datos["hora"],
-                terapeuta=datos["terapeuta"],
-                paciente=datos["paciente"]).exists()
+
+            if request.user.rol != "SISTEMA":
+                terapeuta = request.user
+                
+            else:
+                terapeuta = datos["terapeuta"]
+
+            existe = Cita.objects.filter(fecha=datos["fecha"],hora=datos["hora"],terapeuta=terapeuta, paciente=datos["paciente"]).exists()
+
             if existe:
                 form.add_error(
                     None,
-                    "Esta cita ya se encuentra registrada.")
+                    "Esta cita ya se encuentra registrada."
+                )
+
             else:
                 cita = form.save(commit=False)
                 cita.status = EstadoCita.CONSULTADO
-                
-                if request.user.rol != "SISTEMA":
-                    cita.terapeuta = request.user
-                    
+                cita.terapeuta = terapeuta
                 cita.save()
-                
-                messages.success(request, "Consulta registrada exitosamente.")
-                return redirect("citas:agendar")
-            
+
+                messages.success(
+                    request,
+                    "Consulta registrada exitosamente."
+                )
+
+                return redirect("citas:citas")
+
     else:
-        form = CitaForm()
-        
-    return render(request, "citas/agendar.html", {"citaForm": form})
+        form = CitaForm(usuario=request.user)
+
+    return render(
+        request,
+        "citas/agendar.html",
+        {"citaForm": form}
+    )
 
