@@ -3,117 +3,120 @@
 {% block title %}Administración{% endblock %}
 
 {% block content %}
-<div class="container is-fluid">
-    <div class="mb-6">
-        <h1 class="title is-2">
-            Administración
-        </h1>
-        <p>
-            Gestiona los pagos, gastos y procesos administrativos del centro de terapias.
-        </p>
+
+<p class="title is-2 is-spaced">
+    Administración
+</p>
+
+<p class="subtitle is-4">
+    Gestiona los pagos, gastos y procesos administrativos del centro de terapias.
+</p>
+
+<div class="columns is-multiline">
+
+    <!-- Pago de terapias -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+
+        <a href="{% url 'administracion:pago_sesion' %}">
+
+            <div class="box has-text-centered">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-money-check-dollar fa-2x"></i>
+                </span>
+
+                <h2 class="title is-5">
+                    Pago de terapias
+                </h2>
+
+                <p class="has-text-grey">
+                    Registra pagos en efectivo o transferencia realizados por los pacientes.
+                </p>
+
+            </div>
+
+        </a>
+
     </div>
-    <div class="columns is-multiline">
-        <!-- Pago de terapias -->
-        <div class="column is-6-tablet is-4-desktop">
-            <div class="card">
-                <div class="card-content">
-                    <p class="title is-4">
-                        💳 Pago de terapias
-                    </p>
-                    <p class="content">
-                        Registra pagos en efectivo o transferencia realizados por los pacientes.
-                    </p>
-                </div>
 
-                <footer class="card-footer">
-                    <a href="{% url "administracion:pago_sesion" %}"
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
-            </div>
-        </div>
 
-        <!-- Gastos -->
-        <div class="column is-6-tablet is-4-desktop">
-            <div class="card">
-                <div class="card-content">
-                    <p class="title is-4">
-                        💰 Gastos administrativos
-                    </p>
-                    <p class="content">
-                        Lleva el control de gastos como luz, agua, internet, renta y honorarios.
-                    </p>
-                </div>
+    <!-- Gastos -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
 
-                <footer class="card-footer">
-                    <a href="{% url "administracion:gastos" %}"
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
+        <a href="{% url 'administracion:gastos' %}">
+
+            <div class="box has-text-centered dashboard-card">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-coins fa-2x"></i>
+                </span>
+
+                <h2 class="title is-5">
+                    Gastos administrativos
+                </h2>
+
+                <p class="has-text-grey">
+                    Lleva el control de gastos como luz, agua, internet, renta y honorarios.
+                </p>
 
             </div>
 
-        </div>
+        </a>
 
-        <!-- Asignación -->
-        <div class="column is-6-tablet is-4-desktop">
+    </div>
 
-            <div class="card">
-                <div class="card-content">
 
-                    <p class="title is-4">
-                        📋 Asignación de pagos
-                    </p>
+    <!-- Asignación de pagos -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
 
-                    <p class="content">
-                        Relaciona cada pago con las terapias o evaluaciones correspondientes.
-                    </p>
+        <a href="{% url 'administracion:pago_paquetes' %}">
 
-                </div>
+            <div class="box has-text-centered dashboard-card">
 
-                <footer class="card-footer">
-                    <a href="{% url "administracion:pago_paquetes" %}"
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-list-check fa-2x"></i>
+                </span>
 
-            </div>
+                <h2 class="title is-5">
+                    Asignación de pagos
+                </h2>
 
-        </div>
-
-        <!-- Cobros -->
-        <div class="column is-6-tablet is-4-desktop">
-
-            <div class="card">
-                <div class="card-content">
-
-                    <p class="title is-4">
-                        📩 Mensajes de cobro
-                    </p>
-
-                    <p class="content">
-                        Envía recordatorios de pago mediante WhatsApp o correo electrónico.
-                    </p>
-
-                </div>
-
-                <footer class="card-footer">
-                    <a href={% url "administracion:mensaje_cobro" %}
-                        class="card-footer-item has-text-weight-semibold">
-                        Ir al módulo
-                    </a>
-                </footer>
+                <p class="has-text-grey">
+                    Relaciona cada pago con las terapias o evaluaciones correspondientes.
+                </p>
 
             </div>
 
-        </div>
+        </a>
+
+    </div>
+
+
+    <!-- Mensajes de cobro -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+
+        <a href="{% url 'administracion:mensaje_cobro' %}">
+
+            <div class="box has-text-centered dashboard-card">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-brands fa-whatsapp fa-2x"></i>
+                </span>
+
+                <h2 class="title is-5">
+                    Mensajes de cobro
+                </h2>
+
+                <p class="has-text-grey">
+                    Envía recordatorios de pago mediante WhatsApp o correo electrónico.
+                </p>
+
+            </div>
+
+        </a>
 
     </div>
 
 </div>
-
 
 {% endblock %}

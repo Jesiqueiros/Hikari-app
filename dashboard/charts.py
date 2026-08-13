@@ -37,7 +37,7 @@ def grafico_semanal(terapueta_id):
             name="Efectivo",
             x=efectivo["week"],
             y=efectivo["precio"],
-            marker_color='#9DECA2'
+            marker_color='#A1CB35'
         )
     )
 
@@ -46,7 +46,7 @@ def grafico_semanal(terapueta_id):
             name="Transferencia",
             x=transferencia["week"],
             y=transferencia["precio"],
-            marker_color='#A29DEC'
+            marker_color='#FFDE4E'
         )
     )
     fig.update_layout(

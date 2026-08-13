@@ -63,6 +63,6 @@ class CitaForm(forms.ModelForm):
                 .order_by("id")
             )
 
-        self.fields["fecha"].initial = timezone.localdate()
+        self.fields["fecha"].initial = timezone.localdate().isoformat()
 
         

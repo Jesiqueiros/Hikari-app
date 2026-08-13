@@ -1,34 +1,71 @@
 {% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
 
-<div class="column is-4">
-    <div class="box">
-        <h2 class="title is-5">Contabilidad</h2>
-        <p class="mb-4">
-            Resumen semanal de ingresos y consultas.
-        </p>
+<p class="title is-2 is-spaced">
+    Dashboard
+</p>
 
-        <a
-            class="button is-primary is-fullwidth"
-            href="{% url 'dashboard:contable' %}">
-            Abrir tablero
+<p class="subtitle is-4">
+    Revisa los reportes de contabildad, semanales y de los terapeutas.
+</p>
+
+<div class="columns is-multiline">
+
+    <!-- Contabilidad -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+
+        <a href="{% url 'dashboard:contable' %}">
+
+            <div class="box has-text-centered">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-chart-line fa-2x"></i>
+                </span>
+
+                <h2 class="title is-5">
+                    Contabilidad
+                </h2>
+
+                <p class="has-text-grey">
+                    Reporte de ingresos y gastos semanales
+                </p>
+
+            </div>
+
         </a>
+
     </div>
+
+
+    <!-- Registrar nuevo paciente -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+
+        <a href="{% url 'dashboard:semanal' %}">
+
+            <div class="box has-text-centered dashboard-card">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-chart-column fa-2x"></i>
+
+                </span>
+
+                <h2 class="title is-5">
+                    Consultas cobradas
+                </h2>
+
+                <p class="has-text-grey">
+                    Reporte de consultas cobradas por terapeutas
+                </p>
+
+            </div>
+
+        </a>
+
+    </div>
+
 </div>
 
-<div class="column is-4">
-    <div class="box">
-        <h2 class="title is-5">Semanal</h2>
-        <p class="mb-4">
-            Consulta las sesiones pendientes por liquidar para cada terapeuta.
-        </p>
-
-        <a
-            class="button is-primary is-fullwidth"
-            href="{% url 'dashboard:semanal' %}">
-            Abrir tablero
-        </a>
-    </div>
-</div>
-
-{% endblock content %}
+{% endblock %}

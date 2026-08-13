@@ -3,54 +3,66 @@
 {% block title %}Pacientes{% endblock %}
 
 {% block content %}
-<div class="container is-fluid">
 
-    <div class="mb-6">
-        <h1 class="title is-2">
-            Pacientes
-        </h1>
-        <p class="subtitle is-6">
-            Formularios, notas, información personal y más para pacientes.
-        </p>
+<p class="title is-2 is-spaced">
+    Administración
+</p>
+
+<p class="subtitle is-4">
+    Gestiona los pagos, gastos y procesos administrativos del centro de terapias.
+</p>
+
+<div class="columns is-multiline">
+
+    <!-- Expediente -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+
+        <a href={% url 'pacientes:expediente' %}>
+
+            <div class="box has-text-centered">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-book-medical fa-2x"></i>
+                </span>
+
+                <h2 class="title is-5">
+                    Expediente
+                </h2>
+
+                <p class="has-text-grey">
+                    Revisa la información del paciente.
+                </p>
+
+            </div>
+
+        </a>
+
     </div>
 
-    <div class="columns is-multiline">
 
-        <!-- Expediente -->
-        <div class="column is-6-tablet is-4-desktop">
-            <div class="box">
-                <h2 class="title is-4">
-                    📋 Expediente
+    <!-- Registrar nuevo paciente -->
+    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+
+        <a href="#">
+
+            <div class="box has-text-centered dashboard-card">
+
+                <span class="icon is-large mb-4">
+                    <i class="fa-solid fa-user-plus fa-2x"></i>
+
+                </span>
+
+                <h2 class="title is-5">
+                    Registrar nuevo paciente
                 </h2>
 
-                <p class="mb-5">
-                    Revisa información general, historial clínico, citas, notas y pagos del paciente.
+                <p class="has-text-grey">
+                    Formulario de registro para nuevos pacientes
                 </p>
 
-                <a href="{% url 'pacientes:expediente' %}"
-                   class="button is-dark is-light is-fullwidth">
-                    Ir al módulo
-                </a>
             </div>
-        </div>
 
-        <!-- Formulario -->
-        <div class="column is-6-tablet is-4-desktop">
-            <div class="box">
-                <h2 class="title is-4">
-                    🖥️ Formulario de registro
-                </h2>
-
-                <p class="mb-5">
-                    Genera el formulario para registrar nuevos pacientes de manera sencilla.
-                </p>
-
-                <a href="#"
-                   class="button is-dark is-light is-fullwidth">
-                    Ir al módulo
-                </a>
-            </div>
-        </div>
+        </a>
 
     </div>
 
