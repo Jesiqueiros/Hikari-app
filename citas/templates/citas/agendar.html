@@ -127,6 +127,27 @@
                         </div>
                     {% endif %}
 
+                    <!--Cita liquidada-->
+                    {% if citaForm.liquidada %}
+                    <div class="column is-12">
+
+                        <div class="field">
+
+                            <label class="label">
+                                {{ citaForm.liquidada.label }}
+                            </label>
+
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    {{ citaForm.liquidada }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% endif %}
+
                 </div>
 
                 <!-- Botones -->

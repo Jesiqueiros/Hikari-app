@@ -38,6 +38,12 @@ class CitaForm(forms.ModelForm):
                     "class": "input"
                 }
             ),
+            "liquidada": forms.Select(
+                choices=[
+                    (False, "Pendiente de pagar"),
+                    (True, "Consulta Pagada"),
+                ]
+            ),
         }
 
     def __init__(self, *args, usuario=None, **kwargs):
