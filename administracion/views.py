@@ -75,7 +75,7 @@ def pago_sesion(request):
 @login_required
 def pago_paquetes(request):
     """Carga los paquetes pagado para posteriomente realizar la asignacion de cada pago/paquete con su respectiva sesión."""
-    referencia_pago = PagoSesion.objects.filter(sesiones_asignadas__lt=F("sesiones_cubiertas")).order_by("-fecha", "paciente_id__nombre")
+    referencia_pago = PagoSesion.objects.filter(sesiones_asignadas__lt=F("sesiones_cubiertas")).order_by("paciente_id__nombre", "-fecha")
     
     return render(request, "administracion/pago_paquetes.html", context={"referencias": referencia_pago})
 
