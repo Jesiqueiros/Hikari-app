@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+{% load static %}
+
+
+<html lang="es" data-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Registro de paciente | Hikari{% endblock title %}</title>
+
+    <link rel="stylesheet" href={% static 'bulma/css/bulma.min.css' %}>
+
+    <style>
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.45)
+                ),
+                url("{% static 'img/formulario_background.svg' %}") center center / cover fixed;
+        }
+
+        .registro-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<section class="section">
+
+    <div class="container registro-container">
+
+        <div class="columns is-centered">
+
+            <div class="column is-12-mobile is-10-tablet is-8-desktop">
+
+                <!-- Encabezado -->
+
+                <div class="box has-text-centered mb-6">
+
+                    <h1 class="title is-2">
+                        Registro de paciente
+                    </h1>
+
+                    <p class="subtitle is-5">
+                        Centro de Terapias Hikari
+                    </p>
+
+                    <p>
+                        Completa los siguientes datos para registrar
+                        al paciente.
+                    </p>
+
+                </div>
+
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+
+                    <!-- ========================= -->
+                    <!-- DATOS DEL PACIENTE         -->
+                    <!-- ========================= -->
+
+                    <div class="box">
+
+                        <h2 class="title is-4">
+                            Datos del paciente
+                        </h2>
+
+                        <p class="subtitle is-6">
+                            Información general del paciente.
+                        </p>
+
+
+                        <div class="columns is-multiline">
+
+                            <!-- Nombre -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.nombre.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.nombre class="input" placeholder="Nombre(s)" %}
+
+                                    </div>
+
+                                    {% for error in form.nombre.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Apellido -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.apellido.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.apellido class="input" placeholder="Apellidos" %}
+
+                                    </div>
+
+                                    {% for error in form.apellido.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Fecha de nacimiento -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.fecha_nacimiento.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.fecha_nacimiento class="input" type="date" %}
+
+                                    </div>
+
+                                    {% for error in form.fecha_nacimiento.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Escuela -->
+
+                            <div class="column is-12">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.escuela.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.escuela class="input" placeholder="Nombre de la escuela" %}
+
+                                    </div>
+
+                                    {% for error in form.escuela.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Domicilio -->
+
+                            <div class="column is-12">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.domicilio.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.domicilio class="textarea" rows="2" placeholder="Domicilio actual del paciente" %}
+
+                                    </div>
+
+                                    {% for error in form.domicilio.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ========================= -->
+                    <!-- DATOS MÉDICOS              -->
+                    <!-- ========================= -->
+
+                    <div class="box">
+
+                        <h2 class="title is-4">
+                            Información médica
+                        </h2>
+
+                        <p class="subtitle is-6">
+                            Esta información nos ayudará a brindar
+                            una atención adecuada al paciente.
+                        </p>
+
+
+                        <!-- Diagnóstico -->
+
+                        <div class="field">
+
+                            <label class="label">
+                                {{ form.diagnostico.label }}
+                            </label>
+
+                            <div class="control">
+
+                                {% render_field form.diagnostico class="textarea" rows="3" placeholder="Indique si el paciente cuenta con algún diagnóstico" %}
+
+                            </div>
+
+                            {% if form.diagnostico.help_text %}
+                                <p class="help">
+                                    {{ form.diagnostico.help_text }}
+                                </p>
+                            {% endif %}
+
+                            {% for error in form.diagnostico.errors %}
+                                <p class="help is-danger">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- Enfermedades / alergias -->
+
+                        <div class="field">
+
+                            <label class="label">
+                                {{ form.enfermedad_alergia.label }}
+                            </label>
+
+                            <div class="control">
+
+                                {% render_field form.enfermedad_alergia class="textarea" rows="3" placeholder="Indique enfermedades, alergias o reacciones conocidas" %}
+
+                            </div>
+
+                            {% for error in form.enfermedad_alergia.errors %}
+                                <p class="help is-danger">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- Medicación -->
+
+                        <div class="field">
+
+                            <label class="label">
+                                {{ form.medicacion.label }}
+                            </label>
+
+                            <div class="control">
+
+                                {% render_field form.medicacion class="textarea" rows="3" placeholder="Indique los medicamentos que toma actualmente" %}
+
+                            </div>
+
+                            {% for error in form.medicacion.errors %}
+                                <p class="help is-danger">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ========================= -->
+                    <!-- PADRE / TUTOR              -->
+                    <!-- ========================= -->
+
+                    <div class="box">
+
+                        <h2 class="title is-4">
+                            Padre o tutor
+                        </h2>
+
+                        <div class="columns is-multiline">
+
+                            <!-- Nombre -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.padre.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.padre class="input" placeholder="Nombre completo" %}
+
+                                    </div>
+
+                                    {% for error in form.padre.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Teléfono -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.padre_telefono.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.padre_telefono class="input" type="tel" maxlength="10" placeholder="10 dígitos" %}
+
+                                    </div>
+
+                                    {% for error in form.padre_telefono.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Ocupación -->
+
+                            <div class="column is-12">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.padre_ocupacion.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.padre_ocupacion class="input" placeholder="Ocupación" %}
+
+                                    </div>
+
+                                    {% for error in form.padre_ocupacion.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ========================= -->
+                    <!-- MADRE / TUTORA             -->
+                    <!-- ========================= -->
+
+                    <div class="box">
+
+                        <h2 class="title is-4">
+                            Madre o tutora
+                        </h2>
+
+                        <div class="columns is-multiline">
+
+                            <!-- Nombre -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.madre.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.madre class="input" placeholder="Nombre completo" %}
+
+                                    </div>
+
+                                    {% for error in form.madre.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Teléfono -->
+
+                            <div class="column is-12-mobile is-6-tablet">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.madre_telefono.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.madre_telefono class="input" type="tel" maxlength="10" placeholder="10 dígitos" %}
+
+                                    </div>
+
+                                    {% for error in form.madre_telefono.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Ocupación -->
+
+                            <div class="column is-12">
+
+                                <div class="field">
+
+                                    <label class="label">
+                                        {{ form.madre_ocupacion.label }}
+                                    </label>
+
+                                    <div class="control">
+
+                                        {% render_field form.madre_ocupacion class="input" placeholder="Ocupación" %}
+
+                                    </div>
+
+                                    {% for error in form.madre_ocupacion.errors %}
+                                        <p class="help is-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ========================= -->
+                    <!-- BOTÓN                      -->
+                    <!-- ========================= -->
+
+                    <div class="box">
+
+                        <div class="notification is-info is-light">
+
+                            <p>
+                                Verifica que la información proporcionada
+                                sea correcta antes de enviar el registro.
+                            </p>
+
+                        </div>
+
+                        <div class="field">
+
+                            <div class="control">
+
+                                <button
+                                    type="submit"
+                                    class="button is-primary is-fullwidth is-medium"
+                                >
+                                    Enviar registro
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+
+</html>

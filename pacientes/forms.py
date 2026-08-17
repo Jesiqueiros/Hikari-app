@@ -32,3 +32,35 @@ class ExpedienteForm(forms.Form):
         required=False,
         label="Pagos",
     )
+
+
+class FormularioRegistro(forms.ModelForm):
+    class Meta:
+        model = Paciente
+        exclude = ["id", "activo", "familia", "factura"]
+
+        labels = {
+            # Datos del paciente
+            "nombre": "Nombre(s)",
+            "apellido": "Apellidos",
+            "fecha_nacimiento": "Fecha de nacimiento",
+            "escuela": "Nombre de la escuela a la que asiste",
+            "domicilio": "Domicilio donde vive actualmente",
+
+            # Datos médicos
+            "diagnostico": "Diagnóstico",
+            "enfermedad_alergia": "Enfermedades y/o alergias",
+            "medicacion": "Medicamentos del paciente",
+
+            # Padre (o tutor)
+            "padre": "Nombre",
+            "padre_telefono": "Número de teléfono",
+            "padre_ocupacion": "Ocupación",
+
+            # Madre (o tutora)
+            "madre": "Nombre",
+            "madre_telefono": "Número de teléfono",
+            "madre_ocupacion": "Ocupación",
+        }
+
+

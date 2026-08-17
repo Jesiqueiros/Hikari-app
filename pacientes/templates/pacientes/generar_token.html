@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Generar enlace de registro
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="columns is-centered">
+
+        <div class="column is-12-mobile is-9-tablet is-7-desktop">
+
+            <!-- Encabezado -->
+
+            <div class="mb-6">
+
+                <h1 class="title is-3">
+                    Registrar nuevo paciente
+                </h1>
+
+                <p class="subtitle is-6">
+                    Genera un enlace para que el padre o tutor
+                    pueda proporcionar los datos del paciente.
+                </p>
+
+            </div>
+
+
+            {% if token %}
+
+                <!-- Enlace generado -->
+
+                <div class="box">
+
+                    <div class="mb-5">
+
+                        <h2 class="title is-4 mb-2">
+                            Enlace generado
+                        </h2>
+
+                        <p class="has-text-grey">
+                            Copia este enlace y envíalo al padre o tutor
+                            del paciente.
+                        </p>
+
+                    </div>
+
+
+                    <!-- URL -->
+
+                    <div class="field">
+
+                        <label class="label">
+                            Enlace de registro
+                        </label>
+
+                        <div class="field has-addons">
+
+                            <div class="control is-expanded">
+
+                                <input
+                                    id="url-registro"
+                                    class="input"
+                                    type="text"
+                                    value="{{ url_registro }}"
+                                    readonly
+                                >
+
+                            </div>
+
+                            <div class="control">
+
+                                <button
+                                    id="boton-copiar"
+                                    type="button"
+                                    class="button is-primary"
+                                    onclick="copiarUrl()"
+                                >
+                                    Copiar
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <p
+                            id="mensaje-copiado"
+                            class="help is-success is-hidden"
+                        >
+                            ¡Enlace copiado!
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Acciones -->
+
+                <div class="buttons is-right mt-5">
+
+                    <a
+                        href="{% url 'pacientes:generar_token' %}"
+                        class="button is-primary"
+                    >
+                        Generar otro enlace
+                    </a>
+
+                    <a
+                        href="{% url 'pacientes:pacientes' %}"
+                        class="button is-light"
+                    >
+                        Regresar a pacientes
+                    </a>
+
+                </div>
+
+
+            {% else %}
+
+                <!-- Estado inicial -->
+
+                <div class="box">
+
+                    <div class="has-text-centered py-5">
+
+                        <div class="mb-5">
+
+                            <span class="icon is-large has-text-primary">
+                                <i class="fas fa-link fa-2x"></i>
+                            </span>
+
+                        </div>
+
+                        <h2 class="title is-4">
+                            Generar enlace de registro
+                        </h2>
+
+                        <p class="has-text-grey mb-5">
+                            Se generará un enlace único que podrás
+                            compartir con el padre o tutor.
+                        </p>
+
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="button is-primary is-medium"
+                            >
+                                Generar enlace
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Regresar -->
+
+                <div class="has-text-right mt-4">
+
+                    <a
+                        href="{% url 'pacientes:pacientes' %}"
+                        class="button is-light"
+                    >
+                        Regresar al ménu
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if token %}
+
+<script>
+
+function copiarUrl() {
+
+    const input = document.getElementById("url-registro");
+    const boton = document.getElementById("boton-copiar");
+    const mensaje = document.getElementById("mensaje-copiado");
+
+    navigator.clipboard.writeText(input.value);
+
+    boton.textContent = "¡Copiado!";
+    boton.classList.remove("is-primary");
+    boton.classList.add("is-success");
+
+    mensaje.classList.remove("is-hidden");
+
+    setTimeout(() => {
+
+        boton.textContent = "Copiar";
+
+        boton.classList.remove("is-success");
+        boton.classList.add("is-primary");
+
+        mensaje.classList.add("is-hidden");
+
+    }, 2000);
+
+}
+
+</script>
+
+{% endif %}
+
+{% endblock %}

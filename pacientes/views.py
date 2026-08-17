@@ -4,7 +4,9 @@ from django.contrib import messages
 from .models import TokenRegistro
 from citas.models import Cita
 from administracion.models import PagoSesion
-from .forms import ExpedienteForm
+from .forms import ExpedienteForm, FormularioRegistro
+
+from django.db import transaction
 
 from django.urls import reverse
 
@@ -91,14 +93,46 @@ def generar_token(request):
 
         # 2️⃣ Construir la URL dinámica del formulario con ese token
         url_registro = request.build_absolute_uri(
-            reverse("registros:registro_con_token", args=[str(token.token)])
+            reverse("pacientes:registro_con_token", args=[str(token.token)])
         )
 
         # 3️⃣ Mostrar token y enlace generado
-        return render(request, "pacientes/token_registro.html", {
+        return render(request, "pacientes/generar_token.html", {
             "token": token.token,
             "url_registro": url_registro
         })
 
     # Si es GET → mostrar botón o formulario para generarlo
-    return render(request, "pacientes/token_registro.html")
+    return render(request, "pacientes/generar_token.html")
+
+
+@transaction.atomic
+def registro_con_token(request, token):
+    token_registro = get_object_or_404(TokenRegistro,token=token)
+
+    if token_registro.usado:
+        return render(request,"pacientes/registro/error.html")
+
+    if request.method == "POST":
+
+        form = FormularioRegistro(request.POST)
+
+        if form.is_valid():
+
+            paciente = form.save()
+
+            token_registro.marcar_usado()
+
+            return render(request, 
+                          "pacientes/registro/gracias.html",
+                          {"paciente": paciente}
+                          )
+    else:
+
+        form = FormularioRegistro()
+
+    return render(request, "pacientes/registro/paciente.html",
+        {
+            "form": form,
+        }
+    )
