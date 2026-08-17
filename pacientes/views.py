@@ -108,10 +108,18 @@ def generar_token(request):
 
 @transaction.atomic
 def registro_con_token(request, token):
-    token_registro = get_object_or_404(TokenRegistro,token=token)
+
+    try:
+        token_registro = get_object_or_404(TokenRegistro,token=token)
+
+    except TokenRegistro.DoesNotExist:
+        return render(
+            request,
+            "pacientes/registro/token_invalido.html"
+    )
 
     if token_registro.usado:
-        return render(request,"pacientes/registro/error.html")
+        return render(request,"pacientes/registro/token_usado.html")
 
     if request.method == "POST":
 

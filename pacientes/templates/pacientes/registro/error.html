@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Error | Hikari</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    >
+
+    <style>
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.45)
+                ),
+                url("{% static 'img/form_bg.jpg' %}")
+                center center / cover fixed;
+        }
+
+        .mensaje {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="columns is-centered">
+
+            <div class="column is-12-mobile is-8-tablet is-6-desktop">
+
+                <div class="box mensaje has-text-centered">
+
+                    <div class="mb-5">
+
+                        <span class="icon is-large has-text-danger">
+                            <i class="fas fa-exclamation-circle fa-3x"></i>
+                        </span>
+
+                    </div>
+
+                    <h1 class="title is-2">
+                        Ocurrió un problema
+                    </h1>
+
+                    <p class="subtitle is-5">
+                        No pudimos completar el registro.
+                    </p>
+
+                    <div class="notification is-danger is-light mt-5">
+
+                        <p>
+                            Ocurrió un error al procesar la información.
+                            Por favor, intenta nuevamente o comunícate
+                            con el personal de Hikari.
+                        </p>
+
+                    </div>
+
+                    <p class="has-text-grey mt-5 is-size-7">
+                        Si el problema continúa, puedes informar al
+                        personal de Hikari para que te proporcionen
+                        un nuevo enlace.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+
+</html>
